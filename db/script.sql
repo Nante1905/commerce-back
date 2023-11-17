@@ -1,0 +1,180 @@
+-- create database si_commerce;
+-- \c si_commerce;
+
+CREATE TABLE categorie(
+   id INTEGER,
+   reference VARCHAR(30)  NOT NULL,
+   nom VARCHAR(255)  NOT NULL,
+   PRIMARY KEY(id),
+   UNIQUE(reference),
+   UNIQUE(nom)
+);
+
+CREATE TABLE direction(
+   id INTEGER,
+   nom VARCHAR(255)  NOT NULL,
+   PRIMARY KEY(id),
+   UNIQUE(nom)
+);
+
+CREATE TABLE demande(
+   id INTEGER,
+   reference VARCHAR(30)  NOT NULL,
+   jour DATE NOT NULL,
+   est_ouvert BOOLEAN NOT NULL,
+   id_direction INTEGER NOT NULL,
+   PRIMARY KEY(id),
+   UNIQUE(reference),
+   FOREIGN KEY(id_direction) REFERENCES direction(id)
+);
+
+CREATE TABLE demande_proforma(
+   id INTEGER,
+   reference VARCHAR(30)  NOT NULL,
+   delai_livraison DATE,
+   jour_demande DATE NOT NULL,
+   PRIMARY KEY(id),
+   UNIQUE(reference)
+);
+
+CREATE TABLE fournisseur(
+   id INTEGER,
+   nom VARCHAR(255)  NOT NULL,
+   reference VARCHAR(30)  NOT NULL,
+   email VARCHAR(255)  NOT NULL,
+   telephone VARCHAR(30) ,
+   PRIMARY KEY(id),
+   UNIQUE(nom),
+   UNIQUE(reference)
+);
+
+CREATE TABLE demande_proforma_fournisseur(
+   id INTEGER,
+   id_fournisseur INTEGER NOT NULL,
+   id_demande_proforma INTEGER NOT NULL,
+   PRIMARY KEY(id),
+   FOREIGN KEY(id_fournisseur) REFERENCES fournisseur(id),
+   FOREIGN KEY(id_demande_proforma) REFERENCES demande_proforma(id)
+);
+
+CREATE TABLE mode_paiement(
+   id INTEGER,
+   nom VARCHAR(255)  NOT NULL,
+   PRIMARY KEY(id),
+   UNIQUE(nom)
+);
+
+CREATE TABLE employe(
+   id INTEGER,
+   nom VARCHAR(255)  NOT NULL,
+   prenom VARCHAR(255)  NOT NULL,
+   date_naissance DATE NOT NULL,
+   date_embauche DATE NOT NULL,
+   email VARCHAR(255)  NOT NULL,
+   mot_de_passe VARCHAR(30)  NOT NULL,
+   id_id_direction INTEGER NOT NULL,
+   PRIMARY KEY(id),
+   UNIQUE(email),
+   FOREIGN KEY(id_id_direction) REFERENCES direction(id)
+);
+
+CREATE TABLE article(
+   id INTEGER,
+   designation VARCHAR(255)  NOT NULL,
+   reference VARCHAR(30)  NOT NULL,
+   id_categorie INTEGER NOT NULL,
+   PRIMARY KEY(id),
+   UNIQUE(designation),
+   UNIQUE(reference),
+   FOREIGN KEY(id_categorie) REFERENCES categorie(id)
+);
+
+CREATE TABLE resultat_proforma(
+   id INTEGER,
+   format_prix INTEGER NOT NULL,
+   delai_livraison DATE,
+   date_saisie DATE NOT NULL,
+   id_demande_proforma_fournisseur INTEGER NOT NULL,
+   PRIMARY KEY(id),
+   FOREIGN KEY(id_demande_proforma_fournisseur) REFERENCES demande_proforma_fournisseur(id)
+);
+
+CREATE TABLE bon_commande(
+   id INTEGER,
+   reference VARCHAR(30)  NOT NULL,
+   date_creation DATE NOT NULL,
+   livraison_partielle BOOLEAN NOT NULL,
+   delai_livraison DATE,
+   status BOOLEAN NOT NULL,
+   id_mode_paiement INTEGER NOT NULL,
+   id_fournisseur INTEGER NOT NULL,
+   PRIMARY KEY(id),
+   UNIQUE(reference),
+   FOREIGN KEY(id_mode_paiement) REFERENCES mode_paiement(id),
+   FOREIGN KEY(id_fournisseur) REFERENCES fournisseur(id)
+);
+
+CREATE TABLE demande_details(
+   id_article INTEGER,
+   id_demande INTEGER,
+   quantite DOUBLE PRECISION NOT NULL,
+   status INTEGER NOT NULL,
+   PRIMARY KEY(id_article, id_demande),
+   FOREIGN KEY(id_article) REFERENCES article(id),
+   FOREIGN KEY(id_demande) REFERENCES demande(id)
+);
+
+CREATE TABLE demande_proforma_details(
+   id_id_article INTEGER,
+   id_demande_proforma INTEGER,
+   quantite DOUBLE PRECISION NOT NULL,
+   PRIMARY KEY(id_id_article, id_demande_proforma),
+   FOREIGN KEY(id_id_article) REFERENCES article(id),
+   FOREIGN KEY(id_demande_proforma) REFERENCES demande_proforma(id)
+);
+
+CREATE TABLE fournisseur_categorie(
+   id_categorie INTEGER,
+   id_fournisseur INTEGER,
+   PRIMARY KEY(id_categorie, id_fournisseur),
+   FOREIGN KEY(id_categorie) REFERENCES categorie(id),
+   FOREIGN KEY(id_fournisseur) REFERENCES fournisseur(id)
+);
+
+CREATE TABLE resultat_proforma_details(
+   id_id_article INTEGER,
+   id_resultat_proforma INTEGER,
+   quantite_dispo DOUBLE PRECISION NOT NULL,
+   pu DOUBLE PRECISION NOT NULL,
+   PRIMARY KEY(id_id_article, id_resultat_proforma),
+   FOREIGN KEY(id_id_article) REFERENCES article(id),
+   FOREIGN KEY(id_resultat_proforma) REFERENCES resultat_proforma(id)
+);
+
+CREATE TABLE bon_commande_details(
+   id_article INTEGER,
+   id_bon_commande INTEGER,
+   quantite DOUBLE PRECISION NOT NULL,
+   pu_ht DOUBLE PRECISION,
+   pu_ttc DOUBLE PRECISION,
+   TVA DOUBLE PRECISION,
+   PRIMARY KEY(id_article, id_bon_commande),
+   FOREIGN KEY(id_article) REFERENCES article(id),
+   FOREIGN KEY(id_bon_commande) REFERENCES bon_commande(id)
+);
+
+CREATE TABLE proforma_besoin(
+   id_demande INTEGER,
+   id_proforma INTEGER,
+   PRIMARY KEY(id_demande, id_proforma),
+   FOREIGN KEY(id_demande) REFERENCES demande(id),
+   FOREIGN KEY(id_proforma) REFERENCES demande_proforma(id)
+);
+
+CREATE TABLE chef_direction(
+   id_direction INTEGER,
+   id_employe INTEGER,
+   date_promotion DATE NOT NULL,
+   FOREIGN KEY(id_direction) REFERENCES direction(id),
+   FOREIGN KEY(id_employe) REFERENCES employe(id)
+);
