@@ -2,19 +2,14 @@ package com.nante.commerce.model.demande;
 
 import java.io.Serializable;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.nante.commerce.model.item.Article;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 @Embeddable
 public class DemandeDetailsID implements Serializable {
-    @Column(name = "id_demande")
+    @Column(name = "id_demande", insertable = false, updatable = false)
     int idDemande;
-    @Column(name = "id_article")
+    @Column(name = "id_article", insertable = false, updatable = false)
     int idArticle;
 
     public DemandeDetailsID() {

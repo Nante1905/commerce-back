@@ -13,11 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinColumns;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Transient;
 
 @Entity
 public class Demande extends GenericModel {
@@ -30,7 +27,7 @@ public class Demande extends GenericModel {
     @ManyToOne
     @JoinColumn(name = "id_direction")
     Direction direction;
-    @OneToMany(mappedBy = "demande", fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "demande", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<DemandeDetails> details;
 
     public int getId() {

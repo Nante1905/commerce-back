@@ -1,43 +1,50 @@
 package com.nante.commerce.model.demande;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nante.commerce.model.item.Article;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.MapKey;
-import jakarta.persistence.MapKeyClass;
-import jakarta.persistence.MapKeyColumn;
 import jakarta.persistence.MapsId;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "demande_details")
-// @IdClass(DemandeDetailsID.class)
 public class DemandeDetails {
-    // @JsonIgnore
+    @JsonIgnore
     @EmbeddedId
     DemandeDetailsID id = new DemandeDetailsID();
+    // @ManyToOne(cascade = CascadeType.ALL)
+    // @MapsId("idArticle")
+    // @JoinColumn(name = "id_article", updatable = false, insertable = false)
+    // Article article;
+
+    // @JsonIgnore
+    // @ManyToOne(cascade = CascadeType.MERGE)
+    // @MapsId("idDemande")
+    // @JoinColumn(name = "id_demande", updatable = false, insertable = false)
+    // Demande demande;
+
+    // @Id
+    // @Column(name = "id_demande", insertable = false, updatable = false)
+    // int idDemande;
+    // @Id
+    // @Column(name = "id_article", insertable = false, updatable = false)
+    // int idArticle;
+
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_demande")
+    @MapsId("idDemande")
+    Demande demande;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "id_article")
     @MapsId("idArticle")
-    @JoinColumn(name = "id_article", updatable = false, insertable = false)
     Article article;
 
-    @JsonIgnore
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @MapsId("idDemande")
-    @JoinColumn(name = "id_demande", updatable = false, insertable = false)
-    Demande demande;
     double quantite;
     int status;
 
@@ -73,12 +80,12 @@ public class DemandeDetails {
         this.demande = demande;
     }
 
-    public DemandeDetailsID getId() {
-        return id;
-    }
+    // public DemandeDetailsID getId() {
+    // return id;
+    // }
 
-    public void setId(DemandeDetailsID id) {
-        this.id = id;
-    }
+    // public void setId(DemandeDetailsID id) {
+    // this.id = id;
+    // }
 
 }
