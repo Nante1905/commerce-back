@@ -179,11 +179,3 @@ CREATE TABLE chef_direction(
    FOREIGN KEY(id_employe) REFERENCES employe(id)
 );
 
--- data nante 
-INSERT into direction (nom) values ('Direction des Ressources Humaines'), ('Direction des Achats'), ('Direction Financière'), ('Direction des Systèmes d''Information');
-
-INSERT INTO employe (nom, prenom, date_naissance, date_embauche, email, mot_de_passe, id_direction)
-VALUES
-  ('Razanamahafaly', 'Andriambololona', '1990-01-01', '2020-01-01', 'andriambololona@email.com', 'mdp1', 1),
-  ('Rakotonirina', 'Fenoarivo', '1991-02-02', '2021-02-02', 'fenoarivo@email.com', 'mdp2', 2),
-  ('Ravelonirina', 'Harimalala', '1992-03-03', '2022-03-03', 'harimalala@email.com', 'mdp3', 3);
