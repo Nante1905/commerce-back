@@ -1,6 +1,7 @@
 package com.nante.commerce.crud.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,8 +16,8 @@ public class GenericService<T extends GenericModel> {
         return repository.findAll();
     }
 
-    public T find(int id) {
-        return repository.findById(id).orElse(null);
+    public T find(int id) throws Exception {
+        return repository.findById(id).orElseThrow(() -> new Exception("Entité inexistant"));
     }
 
     public T save(T model) {
