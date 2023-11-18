@@ -9,7 +9,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.stereotype.Component;
 
-import com.nante.commerce.model.Utilisateur;
+import com.nante.commerce.model.employe.Employe;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -21,15 +21,15 @@ public class JWTManager {
     private static final Key key = new SecretKeySpec(Base64.getDecoder().decode(secret),
             SignatureAlgorithm.HS256.getJcaName());
 
-    public String generateToken(Utilisateur utilisateur) {
+    public String generateToken(Employe employe) {
         Date currentDate = new Date();
 
         String token = Jwts.builder()
-                .setSubject(utilisateur.getNom())
+                .setSubject(employe.getNom())
                 .setIssuedAt(currentDate)
                 .setExpiration(new Date(currentDate.getTime() + dayToMs(1)))
-                .claim("email", utilisateur.getEmail())
-                .claim("id", utilisateur.getId())
+                .claim("email", employe.getEmail())
+                .claim("id", employe.getId())
                 .signWith(key)
                 .compact();
         return token;

@@ -9,25 +9,25 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.nante.commerce.model.Utilisateur;
-import com.nante.commerce.services.utilisateur.UtilisateurService;
+import com.nante.commerce.model.employe.Employe;
+import com.nante.commerce.services.employe.EmployeService;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UtilisateurService utilisateurService;
+    private EmployeService employeService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Utilisateur utilisateur;
+        Employe employe;
         try {
-            utilisateur = this.utilisateurService.findByEmail(username);
+            employe = this.employeService.findByEmail(username);
         } catch (Exception e) {
             e.printStackTrace();
             throw new UsernameNotFoundException(e.getMessage());
         }
-        return new User(utilisateur.getEmail(), "", new ArrayList<>());
+        return new User(employe.getEmail(), "", new ArrayList<>());
     }
 
 }

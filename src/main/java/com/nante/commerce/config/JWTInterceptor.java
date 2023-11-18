@@ -34,6 +34,7 @@ public class JWTInterceptor extends OncePerRequestFilter {
             try {
                 jwt.validateToken(token);
                 String email = jwt.getEmail(token);
+                // find user by email not username
                 UserDetails userDetails = userDetailsService.loadUserByUsername(email);
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());

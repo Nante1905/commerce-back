@@ -2,7 +2,7 @@
 -- \c si_commerce;
 
 CREATE TABLE categorie(
-   id INTEGER,
+   id serial,
    reference VARCHAR(30)  NOT NULL,
    nom VARCHAR(255)  NOT NULL,
    PRIMARY KEY(id),
@@ -11,14 +11,14 @@ CREATE TABLE categorie(
 );
 
 CREATE TABLE direction(
-   id INTEGER,
+   id serial,
    nom VARCHAR(255)  NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(nom)
 );
 
 CREATE TABLE demande(
-   id INTEGER,
+   id serial,
    reference VARCHAR(30)  NOT NULL,
    jour DATE NOT NULL,
    est_ouvert BOOLEAN NOT NULL,
@@ -29,7 +29,7 @@ CREATE TABLE demande(
 );
 
 CREATE TABLE demande_proforma(
-   id INTEGER,
+   id serial,
    reference VARCHAR(30)  NOT NULL,
    delai_livraison DATE,
    jour_demande DATE NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE demande_proforma(
 );
 
 CREATE TABLE fournisseur(
-   id INTEGER,
+   id serial,
    nom VARCHAR(255)  NOT NULL,
    reference VARCHAR(30)  NOT NULL,
    email VARCHAR(255)  NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE fournisseur(
 );
 
 CREATE TABLE demande_proforma_fournisseur(
-   id INTEGER,
+   id serial,
    id_fournisseur INTEGER NOT NULL,
    id_demande_proforma INTEGER NOT NULL,
    PRIMARY KEY(id),
@@ -58,28 +58,28 @@ CREATE TABLE demande_proforma_fournisseur(
 );
 
 CREATE TABLE mode_paiement(
-   id INTEGER,
+   id serial,
    nom VARCHAR(255)  NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(nom)
 );
 
 CREATE TABLE employe(
-   id INTEGER,
+   id serial,
    nom VARCHAR(255)  NOT NULL,
    prenom VARCHAR(255)  NOT NULL,
    date_naissance DATE NOT NULL,
    date_embauche DATE NOT NULL,
    email VARCHAR(255)  NOT NULL,
    mot_de_passe VARCHAR(30)  NOT NULL,
-   id_id_direction INTEGER NOT NULL,
+   id_direction INTEGER NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(email),
-   FOREIGN KEY(id_id_direction) REFERENCES direction(id)
+   FOREIGN KEY(id_direction) REFERENCES direction(id)
 );
 
 CREATE TABLE article(
-   id INTEGER,
+   id serial,
    designation VARCHAR(255)  NOT NULL,
    reference VARCHAR(30)  NOT NULL,
    id_categorie INTEGER NOT NULL,
@@ -90,7 +90,7 @@ CREATE TABLE article(
 );
 
 CREATE TABLE resultat_proforma(
-   id INTEGER,
+   id serial,
    format_prix INTEGER NOT NULL,
    delai_livraison DATE,
    date_saisie DATE NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE resultat_proforma(
 );
 
 CREATE TABLE bon_commande(
-   id INTEGER,
+   id serial,
    reference VARCHAR(30)  NOT NULL,
    date_creation DATE NOT NULL,
    livraison_partielle BOOLEAN NOT NULL,
@@ -125,11 +125,11 @@ CREATE TABLE demande_details(
 );
 
 CREATE TABLE demande_proforma_details(
-   id_id_article INTEGER,
+   id_article INTEGER,
    id_demande_proforma INTEGER,
    quantite DOUBLE PRECISION NOT NULL,
-   PRIMARY KEY(id_id_article, id_demande_proforma),
-   FOREIGN KEY(id_id_article) REFERENCES article(id),
+   PRIMARY KEY(id_article, id_demande_proforma),
+   FOREIGN KEY(id_article) REFERENCES article(id),
    FOREIGN KEY(id_demande_proforma) REFERENCES demande_proforma(id)
 );
 
@@ -142,12 +142,12 @@ CREATE TABLE fournisseur_categorie(
 );
 
 CREATE TABLE resultat_proforma_details(
-   id_id_article INTEGER,
+   id_article INTEGER,
    id_resultat_proforma INTEGER,
    quantite_dispo DOUBLE PRECISION NOT NULL,
    pu DOUBLE PRECISION NOT NULL,
-   PRIMARY KEY(id_id_article, id_resultat_proforma),
-   FOREIGN KEY(id_id_article) REFERENCES article(id),
+   PRIMARY KEY(id_article, id_resultat_proforma),
+   FOREIGN KEY(id_article) REFERENCES article(id),
    FOREIGN KEY(id_resultat_proforma) REFERENCES resultat_proforma(id)
 );
 
@@ -178,3 +178,12 @@ CREATE TABLE chef_direction(
    FOREIGN KEY(id_direction) REFERENCES direction(id),
    FOREIGN KEY(id_employe) REFERENCES employe(id)
 );
+
+-- data nante 
+INSERT into direction (nom) values ('Direction des Ressources Humaines'), ('Direction des Achats'), ('Direction Financière'), ('Direction des Systèmes d''Information');
+
+INSERT INTO employe (nom, prenom, date_naissance, date_embauche, email, mot_de_passe, id_direction)
+VALUES
+  ('Razanamahafaly', 'Andriambololona', '1990-01-01', '2020-01-01', 'andriambololona@email.com', 'mdp1', 1),
+  ('Rakotonirina', 'Fenoarivo', '1991-02-02', '2021-02-02', 'fenoarivo@email.com', 'mdp2', 2),
+  ('Ravelonirina', 'Harimalala', '1992-03-03', '2022-03-03', 'harimalala@email.com', 'mdp3', 3);
