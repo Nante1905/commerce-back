@@ -30,7 +30,7 @@ public class Demande extends GenericModel {
     @ManyToOne
     @JoinColumn(name = "id_direction")
     Direction direction;
-    @OneToMany(mappedBy = "demande", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "demande", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     List<DemandeDetails> details;
 
     public int getId() {

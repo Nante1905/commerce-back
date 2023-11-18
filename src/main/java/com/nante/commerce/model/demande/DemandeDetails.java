@@ -27,13 +27,15 @@ public class DemandeDetails {
     // @JsonIgnore
     @EmbeddedId
     DemandeDetailsID id = new DemandeDetailsID();
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_article", insertable = false, updatable = false)
+    @MapsId("idDemande")
     Article article;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id_demande")
+    @MapsId("idDemande")
     Demande demande;
     double quantite;
     int status;
@@ -46,7 +48,10 @@ public class DemandeDetails {
         return quantite;
     }
 
-    public void setQuantite(double quantite) {
+    public void setQuantite(double quantite) throws Exception {
+        if (quantite <= 0) {
+            throw new Exception("La quantité soit être strictement positive");
+        }
         this.quantite = quantite;
     }
 

@@ -21,29 +21,27 @@ import jakarta.transaction.Transactional;
 public class DemandeService extends GenericService<Demande> {
     @Autowired
     DemandeRepository demandeRepo;
-    @Autowired
-    EntityManager entityManager;
-    @Autowired
-    DemandeDetailsRepository detailsRepo;
 
     @Override
     @Transactional
     public Demande save(Demande model) {
         model.setJour(LocalDate.now());
         model.setEstOuvert(true);
-        model.setReference("D2023/11/0003");
+        model.setReference(generateReference());
 
         for (DemandeDetails details : model.getDetails()) {
             details.setDemande(model);
             details.setId(
                     new DemandeDetailsID(details.getIdArticle()));
-            // entityManager.persist(details);
-            // detailsRepo.save(details);
         }
-        System.out.println("INSERRRRRT >>>>>>>>>>");
-        // entityManager.persist(model);
+
         return demandeRepo.save(model);
-        // return model;
+    }
+
+    public String generateReference() {
+        long count = this.demandeRepo.count();
+        LocalDate today = LocalDate.now();
+        return "D" + today.getYear() + today.getMonthValue() + String.format("%04d", count + 1);
     }
 
     public List<Demande> findOuverts() {
