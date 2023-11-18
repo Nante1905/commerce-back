@@ -21,3 +21,14 @@ insert into demande(reference, jour, est_ouvert, id_direction) values ('D2023/11
 insert into demande_details values 
 (1, 1, 10, 0),
 (2, 1, 5, 0);
+
+-- fournisseur
+insert into fournisseur(nom, reference, email, telephone) values ('JUMBO SCORE AKORONDRANO', 'JB10', 'mialisoamurielle@gmail.com', '0340299960');
+insert into fournisseur(nom, reference, email, telephone) values ('LEADER PRICE TANJOMBATO', 'LP20', 'nantemino15@gmail.com', '0340299960');
+
+insert into fournisseur_categorie(id_fournisseur, id_categorie) values 
+(1, 2),
+(1, 3),
+(2, 2)
+
+
