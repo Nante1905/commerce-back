@@ -14,6 +14,8 @@ import com.nante.commerce.model.demande.Demande;
 import com.nante.commerce.services.demande.DemandeService;
 import com.nante.commerce.types.response.Response;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("demandes")
 public class DemandeController extends GenericController<Demande> {
