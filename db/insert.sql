@@ -65,8 +65,8 @@ INSERT INTO article (designation, reference, id_categorie) VALUES
 -- Pour la table resultat_proforma
 INSERT INTO resultat_proforma (format_prix, delai_livraison, date_saisie, id_demande_proforma_fournisseur) VALUES
 (100, '2023-01-01', '2023-01-01', 1),
-(200, '2023-02-02', '2023-02-02', 2),
-(300, '2023-03-03', '2023-03-03', 3);
+(200, '2023-02-02', '2023-02-02', 1);
+
 
 INSERT INTO bon_commande (reference, date_creation, livraison_partielle, delai_livraison, status, id_mode_paiement, id_fournisseur) VALUES
 ('BC001', '2023-01-01', true, '2023-01-01', true, 1, 1),
@@ -75,9 +75,9 @@ INSERT INTO bon_commande (reference, date_creation, livraison_partielle, delai_l
 
 -- Pour la table demande_details
 INSERT INTO demande_details (id_article, id_demande, quantite, status) VALUES
-(1, 1, 10, 1),
-(2, 2, 20, 2),
-(3, 3, 30, 3);
+(1, 1, 10, 0),
+(2, 2, 20, 1),
+(3, 3, 30, -1);
 
 -- Pour la table demande_proforma_details
 INSERT INTO demande_proforma_details (id_article, id_demande_proforma, quantite) VALUES
