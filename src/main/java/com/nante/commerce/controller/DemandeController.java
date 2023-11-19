@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,5 +32,20 @@ public class DemandeController extends GenericController<Demande> {
         } catch (Exception e) {
             return ResponseEntity.status(500).body(new Response(e.getMessage()));
         }
+    }
+
+    @GetMapping("/nature")
+    // Achat ihany no tokony mahita
+    public ResponseEntity<?> findByNature() {
+        return ResponseEntity.ok(new Response(demandeService.findAllDemandeOuvertParDetails(), "OK"));
+    }
+
+    @GetMapping("/nature/service")
+    // Chef ihany no tokony mahita
+    public ResponseEntity<?> findByNatureOfDirection() {
+        // soloina direction de l'user connecté
+        int idDirection = 1;
+        return ResponseEntity
+                .ok(new Response(demandeService.findAllDemandeOuvertParDetailsParDirection(idDirection), null));
     }
 }
