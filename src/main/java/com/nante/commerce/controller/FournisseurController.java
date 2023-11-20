@@ -33,4 +33,9 @@ public class FournisseurController extends GenericController<Fournisseur> {
         }
     }
 
+    // @PostMapping("/demande-proforma")
+    // public void sendDemandeProforma(@RequestBody HashMap<String, Object> body) {
+
+    // }
+
 }

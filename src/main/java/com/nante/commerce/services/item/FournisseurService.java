@@ -17,4 +17,9 @@ public class FournisseurService extends GenericService<Fournisseur> {
     public List<Fournisseur> findForArticles(List<Integer> articles) {
         return fournisseurRepo.findForArticles(articles);
     }
+
+    public void sendEmailDemandeProforma(String delaiLivraison, List<Fournisseur> fournisseurs, HashMap<String, Obje>) {
+        // TODO Auto-generated method stub
+        
+    }
 }

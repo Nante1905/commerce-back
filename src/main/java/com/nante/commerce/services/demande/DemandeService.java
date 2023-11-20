@@ -10,11 +10,8 @@ import com.nante.commerce.crud.service.GenericService;
 import com.nante.commerce.model.demande.Demande;
 import com.nante.commerce.model.demande.DemandeDetails;
 import com.nante.commerce.model.demande.DemandeDetailsID;
-import com.nante.commerce.model.item.Article;
-import com.nante.commerce.repositories.demande.DemandeDetailsRepository;
 import com.nante.commerce.repositories.demande.DemandeRepository;
 
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -46,5 +43,9 @@ public class DemandeService extends GenericService<Demande> {
 
     public List<Demande> findOuverts() {
         return this.demandeRepo.findByEstOuvert(true);
+    }
+
+    public List<Demande> findByDirectionId(int idDirection) {
+        return this.demandeRepo.findByDirectionId(idDirection);
     }
 }
