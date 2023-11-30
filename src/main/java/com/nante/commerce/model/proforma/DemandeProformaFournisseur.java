@@ -24,6 +24,13 @@ public class DemandeProformaFournisseur {
     DemandeProforma demandeProforma;
     int etat;
 
+    public DemandeProformaFournisseur() {
+    }
+
+    public DemandeProformaFournisseur(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
