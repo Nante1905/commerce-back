@@ -16,7 +16,7 @@ public class DemandeProformaFournisseur {
     int id;
 
     @ManyToOne
-    @JoinColumn(name = "id_demande_proforma")
+    @JoinColumn(name = "id_fournisseur")
     Fournisseur fournisseur;
 
     int idDemandeProforma;
