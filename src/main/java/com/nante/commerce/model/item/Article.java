@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
 @Entity
 public class Article extends GenericModel {
@@ -19,6 +20,9 @@ public class Article extends GenericModel {
     @ManyToOne
     @JoinColumn(name = "id_categorie")
     Categorie categorie;
+
+    @Transient
+    double qte;
 
     public int getId() {
         return id;
@@ -50,6 +54,14 @@ public class Article extends GenericModel {
 
     public void setCategorie(Categorie categorie) {
         this.categorie = categorie;
+    }
+
+    public double getQte() {
+        return qte;
+    }
+
+    public void setQte(double qte) {
+        this.qte = qte;
     }
 
 }

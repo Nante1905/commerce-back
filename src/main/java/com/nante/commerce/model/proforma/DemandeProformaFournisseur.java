@@ -20,6 +20,7 @@ public class DemandeProformaFournisseur {
     Fournisseur fournisseur;
 
     int idDemandeProforma;
+    String reference;
 
     public int getId() {
         return id;
@@ -43,6 +44,14 @@ public class DemandeProformaFournisseur {
 
     public void setIdDemandeProforma(int idDemandeProforma) {
         this.idDemandeProforma = idDemandeProforma;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
 }

@@ -179,3 +179,5 @@ CREATE TABLE chef_direction(
    FOREIGN KEY(id_employe) REFERENCES employe(id)
 );
 
+-- MIAMPY POUR PROFORMA
+alter table demande_proforma_fournisseur add reference VARCHAR(50) unique;

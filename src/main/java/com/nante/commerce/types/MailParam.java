@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import com.nante.commerce.model.item.Article;
 import com.nante.commerce.model.item.Fournisseur;
 
 public class MailParam {
     String delaiLivraison;
     List<String> fournisseurs = new ArrayList<String>();
-    HashMap<String, Object> articles;
+    List<Article> articles;
 
     public String getDelaiLivraison() {
         return delaiLivraison;
@@ -29,11 +30,11 @@ public class MailParam {
         });
     }
 
-    public HashMap<String, Object> getArticles() {
+    public List<Article> getArticles() {
         return articles;
     }
 
-    public void setArticles(HashMap<String, Object> articles) {
+    public void setArticles(List<Article> articles) {
         this.articles = articles;
     }
 

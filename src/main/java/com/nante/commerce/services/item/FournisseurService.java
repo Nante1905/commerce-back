@@ -1,6 +1,7 @@
 package com.nante.commerce.services.item;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import com.nante.commerce.repositories.proforma.DemandeProformaRepo;
 import com.nante.commerce.repositories.proforma.ProformaBesoinRepo;
 import com.nante.commerce.services.demande.DemandeService;
 import com.nante.commerce.types.MailParam;
+import com.nante.commerce.types.response.Response;
 
 import jakarta.transaction.Transactional;
 
@@ -62,15 +64,17 @@ public class FournisseurService extends GenericService<Fournisseur> {
     }
 
     @Transactional
-    public void makeDemandeProforma(String delaiLivraison, List<Fournisseur> fournisseurs,
+    public void makeDemandeProforma(String delaiLivraison, List<Integer> fournisseursIds,
             List<Integer> demandesIds) {
         List<Object[]> articlesQtes = this.demandeRepository.findArticlesWithQteOf(demandesIds);
-
-        HashMap<String, Object> articles = new HashMap<String, Object>();
+        List<Fournisseur> fournisseurs = this.fournisseurRepo.findAllById(fournisseursIds);
+        // HashMap<String, Object> articles = new HashMap<String, Object>();
+        List<Article> articles = new ArrayList<>();
 
         articlesQtes.stream().forEach((articleQte) -> {
             Article a = articleRepository.findById(Integer.parseInt(articleQte[1].toString())).get();
-            articles.put(a.getDesignation(), articleQte[0]);
+            a.setQte(Double.parseDouble(articleQte[0].toString()));
+            articles.add(a);
         });
 
         // Parametres pour le mail
@@ -83,15 +87,15 @@ public class FournisseurService extends GenericService<Fournisseur> {
         DemandeProforma demandeProforma = new DemandeProforma();
         demandeProforma.setDelaiLivraison(delaiLivraison);
         demandeProforma.setJourDemande(LocalDate.now());
-        demandeProforma.setReference(this.demandeService.generateReference());
+        demandeProforma.setReference(this.demandeService.generateReferenceDemandeProforma());
 
         demandeProforma = this.demandeProformaRepo.save(demandeProforma);
 
-        for (Map.Entry<String, Object> entry : articles.entrySet()) {
+        for (Article a : articles) {
             DemandeProformaDetails demandeProformaDetails = new DemandeProformaDetails();
             demandeProformaDetails.setIdDemandeProforma(demandeProforma.getId());
-            demandeProformaDetails.setIdArticle(articleRepository.findByDesignation(entry.getKey()).getId());
-            demandeProformaDetails.setQuantite(Double.parseDouble(entry.getValue().toString()));
+            demandeProformaDetails.setIdArticle(a.getId());
+            demandeProformaDetails.setQuantite(a.getQte());
             demandeProformaDetails = this.demandeProformaDetailsRepo.save(demandeProformaDetails);
 
             demandeProformaDetailsRepo.save(demandeProformaDetails);
@@ -101,6 +105,8 @@ public class FournisseurService extends GenericService<Fournisseur> {
             DemandeProformaFournisseur demandeProformaFournisseur = new DemandeProformaFournisseur();
             demandeProformaFournisseur.setFournisseur(fournisseur);
             demandeProformaFournisseur.setIdDemandeProforma(demandeProforma.getId());
+            demandeProformaFournisseur.setReference(
+                    this.demandeService.generateReferenceDemandeProformaFournisseur(demandeProforma, fournisseur));
 
             demandeProformaFournisseurRepo.save(demandeProformaFournisseur);
         }
@@ -112,7 +118,7 @@ public class FournisseurService extends GenericService<Fournisseur> {
             proformaBesoinRepo.save(proformaBesoin);
         }
 
-        this.sendMail(mailParam);
+        // this.sendMail(mailParam);
     }
 
     private ResponseEntity<?> sendMail(MailParam param) {
@@ -126,7 +132,8 @@ public class FournisseurService extends GenericService<Fournisseur> {
             HttpEntity<MailParam> requestEntity = new HttpEntity<MailParam>(param, headers);
 
             String url = "http://localhost:4444/mailer";
-            ResponseEntity<?> response = restTemplate.postForObject(url, requestEntity, ResponseEntity.class);
+            ResponseEntity<?> response = ResponseEntity.ok()
+                    .body(new Response(restTemplate.postForObject(url, requestEntity, Object.class), ""));
 
             return response;
         } catch (Exception e) {

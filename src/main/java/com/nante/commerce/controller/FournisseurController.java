@@ -33,9 +33,20 @@ public class FournisseurController extends GenericController<Fournisseur> {
         }
     }
 
-    // @PostMapping("/demande-proforma")
-    // public void sendDemandeProforma(@RequestBody HashMap<String, Object> body) {
+    @PostMapping("/demande-proforma")
+    public ResponseEntity<Response> sendDemandeProforma(@RequestBody HashMap<String, Object> body) {
+        String date = (String) body.get("livraison");
+        List<Integer> fournisseurs = ((List<Integer>) body.get("fournisseurs"));
+        List<Integer> demandeIds = ((List<Integer>) body.get("demandes"));
 
-    // }
+        try {
+            fournisseurService.makeDemandeProforma(date, fournisseurs, demandeIds);
+            return ResponseEntity.ok().body(new Response(null, "Demande envoyée"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(new Response(e.getMessage()));
+        }
+
+    }
 
 }

@@ -20,9 +20,12 @@ import com.nante.commerce.model.demande.DemandeParNature;
 import com.nante.commerce.model.demande.DemandeParNatureDetails;
 import com.nante.commerce.model.demande.SelectionDetailsDemande;
 import com.nante.commerce.model.item.Article;
+import com.nante.commerce.model.item.Fournisseur;
+import com.nante.commerce.model.proforma.DemandeProforma;
 import com.nante.commerce.repositories.demande.DemandeDetailsRepository;
 import com.nante.commerce.repositories.demande.DemandeParDetailsRepository;
 import com.nante.commerce.repositories.demande.DemandeRepository;
+import com.nante.commerce.repositories.proforma.DemandeProformaRepo;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -38,6 +41,8 @@ public class DemandeService extends GenericService<Demande> {
     DemandeDetailsRepository detailsRepository;
     @PersistenceContext
     EntityManager entityManager;
+    @Autowired
+    DemandeProformaRepo demandeProformaRepo;
 
     public Map<?, ?> findByNature() {
         Demande demande = demandeRepo.findById(1).get();
@@ -62,7 +67,19 @@ public class DemandeService extends GenericService<Demande> {
     public String generateReference() {
         long count = this.demandeRepo.count();
         LocalDate today = LocalDate.now();
-        return "D" + today.getYear() + today.getMonthValue() + String.format("%04d", count + 1);
+        return "D" + today.getYear() + today.getMonthValue() + today.getDayOfMonth() + String.format("%04d", count + 1);
+    }
+
+    public String generateReferenceDemandeProforma() {
+        long count = this.demandeProformaRepo.count();
+        LocalDate today = LocalDate.now();
+        return "P" + today.getYear() + today.getMonthValue() + today.getDayOfMonth() + String.format("%04d", count + 1);
+    }
+
+    public String generateReferenceDemandeProformaFournisseur(DemandeProforma proforma, Fournisseur fournisseur) {
+        long count = this.demandeProformaRepo.countDemandeProformaFournisseur(proforma.getId(), fournisseur.getId());
+        return proforma.getReference().concat("-").concat(fournisseur.getReference()).concat("-")
+                .concat(String.valueOf(count));
     }
 
     public List<Demande> findOuverts() {
@@ -114,6 +131,7 @@ public class DemandeService extends GenericService<Demande> {
             demandes.add(s.getDemande());
 
         }
+
         String formattedSelected = selectedList.toString().replace("[", "(").replace("]", ")");
         String formattedRejected = rejectedList.toString().replace("[", "(").replace("]", ")");
         String formattedDemandes = demandes.toString().replace("[", "(").replace("]", ")");
@@ -129,9 +147,8 @@ public class DemandeService extends GenericService<Demande> {
                     int.class).executeUpdate();
         }
 
-        entityManager.createNativeQuery(
-                "update demande set etat = 5 where (id) in " + formattedDemandes,
-                int.class).executeUpdate();
+        entityManager.createNativeQuery("update demande set etat = 5 where (id) in " + formattedDemandes, int.class)
+                .executeUpdate();
     }
 
     public List<DemandeParNature> groupDemandeParNature(List<DemandeParDetails> demandes) {
