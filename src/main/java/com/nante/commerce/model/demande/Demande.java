@@ -23,7 +23,16 @@ public class Demande extends GenericModel {
     int id;
     String reference;
     LocalDate jour;
-    boolean estOuvert;
+    int etat;
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
+    }
+
     @ManyToOne
     @JoinColumn(name = "id_direction")
     Direction direction;
@@ -52,14 +61,6 @@ public class Demande extends GenericModel {
 
     public void setJour(LocalDate jour) {
         this.jour = jour;
-    }
-
-    public boolean isEstOuvert() {
-        return estOuvert;
-    }
-
-    public void setEstOuvert(boolean estOuvert) {
-        this.estOuvert = estOuvert;
     }
 
     public Direction getDirection() {

@@ -21,7 +21,7 @@ CREATE TABLE demande(
    id serial,
    reference VARCHAR(30)  NOT NULL,
    jour DATE NOT NULL,
-   est_ouvert BOOLEAN NOT NULL,
+   etat  integer NOT NULL default 0,
    id_direction INTEGER NOT NULL,
    PRIMARY KEY(id),
    UNIQUE(reference),

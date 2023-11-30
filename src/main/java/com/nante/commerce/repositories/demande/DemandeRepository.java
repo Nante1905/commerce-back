@@ -14,4 +14,7 @@ public interface DemandeRepository extends GenericRepository<Demande> {
 
     @Query(value = "select sum(vdd.quantite) quantite, vdd.id_article from v_demande_details vdd where vdd.status = 5 and vdd.id_demande in :demandeIds GROUP BY vdd.id_article", nativeQuery = true)
     List<Object[]> findArticlesWithQteOf(List<Integer> demandeIds);
+
+    List<Demande> findByEtat(int etat);
+
 }

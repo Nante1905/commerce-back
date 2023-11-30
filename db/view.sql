@@ -7,3 +7,5 @@ select a.id id_article, f.*
 create view v_demande_details as select * from demande d join demande_details dd on d.id = dd.id_demande;
 
 select sum(vdd.quantite) quantite, vdd.id_article from v_demande_details vdd where vdd.status = 5 and vdd.id_demande in :params GROUP BY vdd.id_article;
+create view v_demande_details as 
+select * from demande d join demande_details dtl on dtl.id_demande = d.id
