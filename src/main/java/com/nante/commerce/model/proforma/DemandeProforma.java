@@ -42,6 +42,10 @@ public class DemandeProforma extends GenericModel {
         this.delaiLivraison = delaiLivraison;
     }
 
+    public void setDelaiLivraison(String delaiLivraison) {
+        this.delaiLivraison = LocalDate.parse(delaiLivraison);
+    }
+
     public LocalDate getJourDemande() {
         return jourDemande;
     }

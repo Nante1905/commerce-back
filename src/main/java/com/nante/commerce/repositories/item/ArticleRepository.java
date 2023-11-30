@@ -5,4 +5,6 @@ import com.nante.commerce.model.item.Article;
 
 public interface ArticleRepository extends GenericRepository<Article> {
 
+    Article findByDesignation(String designation);
+
 }
