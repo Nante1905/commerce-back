@@ -18,6 +18,13 @@ public class DemandeProforma extends GenericModel {
     LocalDate delaiLivraison;
     LocalDate jourDemande;
 
+    public DemandeProforma() {
+    }
+
+    public DemandeProforma(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }

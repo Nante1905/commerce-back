@@ -181,3 +181,4 @@ CREATE TABLE chef_direction(
 
 -- MIAMPY POUR PROFORMA
 alter table demande_proforma_fournisseur add reference VARCHAR(50) unique;
+alter table demande_proforma_fournisseur add etat integer not null default 0;
