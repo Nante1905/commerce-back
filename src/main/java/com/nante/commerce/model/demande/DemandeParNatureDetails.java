@@ -1,5 +1,7 @@
 package com.nante.commerce.model.demande;
 
+import java.time.LocalDate;
+
 import com.nante.commerce.model.employe.Direction;
 
 public class DemandeParNatureDetails {
@@ -7,12 +9,14 @@ public class DemandeParNatureDetails {
     int status;
     double quantite;
     int idDemande;
+    LocalDate jour;
 
     public DemandeParNatureDetails(DemandeParDetails d) {
         setDirection(d.getDirection());
         setStatus(d.getStatus());
         setQuantite(d.getQuantite());
         setIdDemande(d.getId());
+        setJour(d.getJour());
     }
 
     public int getIdDemande() {
@@ -54,5 +58,13 @@ public class DemandeParNatureDetails {
 
     public void setQuantite(double quantite) {
         this.quantite = quantite;
+    }
+
+    public LocalDate getJour() {
+        return jour;
+    }
+
+    public void setJour(LocalDate jour) {
+        this.jour = jour;
     }
 }

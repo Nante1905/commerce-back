@@ -6,6 +6,7 @@ import com.nante.commerce.model.employe.Direction;
 import com.nante.commerce.model.item.Article;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -21,7 +22,8 @@ public class DemandeParDetails {
     int id;
     String reference;
     LocalDate jour;
-    boolean estOuvert;
+    @Column(name = "etat")
+    int etatDemande;
     double quantite;
     int status;
     // @ManyToOne(cascade = CascadeType.ALL)
@@ -86,14 +88,6 @@ public class DemandeParDetails {
         this.jour = jour;
     }
 
-    public boolean isEstOuvert() {
-        return estOuvert;
-    }
-
-    public void setEstOuvert(boolean estOuvert) {
-        this.estOuvert = estOuvert;
-    }
-
     public double getQuantite() {
         return quantite;
     }
@@ -108,6 +102,14 @@ public class DemandeParDetails {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public int getEtatDemande() {
+        return etatDemande;
+    }
+
+    public void setEtatDemande(int etat) {
+        this.etatDemande = etat;
     }
 
 }

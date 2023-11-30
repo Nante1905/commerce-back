@@ -16,7 +16,7 @@ insert into article values (default, 'Classeur GF', 'F1', 1);
 insert into article values (default, 'Papier chemise', 'F2', 1);
 insert into article values (default, 'Chiffon jaune', 'D1', 2);
 
-insert into demande(reference, jour, est_ouvert, id_direction) values ('D2023/11/0001', '2023-11-15', 'true', 1);
+insert into demande(reference, jour, etat, id_direction) values ('D2023/11/0001', '2023-11-15', 0, 1);
 
 insert into demande_details values 
 (1, 1, 10, 0),

@@ -8,9 +8,9 @@ import com.nante.commerce.model.demande.DemandeDetailsID;
 import com.nante.commerce.model.demande.DemandeParDetails;
 
 public interface DemandeParDetailsRepository extends JpaRepository<DemandeParDetails, DemandeDetailsID> {
-    public List<DemandeParDetails> findByEstOuvertAndStatus(boolean estOuvert, int status);
+    public List<DemandeParDetails> findByEtatDemandeAndStatus(int etat, int status);
 
-    public List<DemandeParDetails> findByEstOuvertAndStatusAndDirection_id(boolean estOuvert, int status,
+    public List<DemandeParDetails> findByEtatDemandeAndStatusAndDirection_id(int etat, int status,
             int idDirection);
 
 }
