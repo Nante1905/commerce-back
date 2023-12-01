@@ -23,7 +23,9 @@ public class EmployeService extends GenericService<Employe> {
     }
 
     public Employe getAuthenticated() throws Exception {
-        Employe authenticated = this.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        System.out.println("debug ================================ email: " + email);
+        Employe authenticated = this.findByEmail(email);
         return authenticated;
     }
 }

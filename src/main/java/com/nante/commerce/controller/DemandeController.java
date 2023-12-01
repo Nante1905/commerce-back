@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.nante.commerce.crud.controller.GenericController;
 import com.nante.commerce.model.demande.Demande;
 import com.nante.commerce.model.demande.SelectionDetailsDemande;
+import com.nante.commerce.model.employe.Employe;
 import com.nante.commerce.services.demande.DemandeService;
+import com.nante.commerce.services.employe.EmployeService;
 import com.nante.commerce.types.response.Response;
 
 @RestController
@@ -22,6 +24,9 @@ import com.nante.commerce.types.response.Response;
 public class DemandeController extends GenericController<Demande> {
     @Autowired
     DemandeService demandeService;
+
+    @Autowired
+    EmployeService employeService;
 
     @Override
     @PostMapping
@@ -59,11 +64,13 @@ public class DemandeController extends GenericController<Demande> {
 
     @GetMapping("/nature/service")
     // Chef ihany no tokony mahita
-    public ResponseEntity<?> findByNatureOfDirection() {
+    public ResponseEntity<?> findByNatureOfDirection() throws Exception {
         // soloina direction de l'user connecté
-        int idDirection = 4;
+        Employe employe = employeService.getAuthenticated();
         return ResponseEntity
-                .ok(new Response(demandeService.findAllDemandeOuvertParDetailsParDirection(idDirection), null));
+                .ok(new Response(
+                        demandeService.findAllDemandeOuvertParDetailsParDirection(employe.getDirection().getId()),
+                        null));
     }
 
     @PostMapping("validation")
