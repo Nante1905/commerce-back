@@ -16,12 +16,18 @@ import com.nante.commerce.model.bonCommande.BonDeCommande;
 import com.nante.commerce.model.bonCommande.BonDeCommandeDetails;
 import com.nante.commerce.model.demande.DemandeParDetails;
 import com.nante.commerce.model.demande.DemandeParNature;
+import com.nante.commerce.model.employe.Employe;
 import com.nante.commerce.model.item.Article;
 import com.nante.commerce.model.item.Fournisseur;
 import com.nante.commerce.model.proforma.resultat.ResultatProformaDetails;
 import com.nante.commerce.repositories.bonCommande.BonDeCommandeRepo;
 import com.nante.commerce.repositories.proforma.resultat.ResultatProformaDetailsRepo;
+import com.nante.commerce.services.authentication.AuthenticationService;
 import com.nante.commerce.services.demande.DemandeService;
+import com.nante.commerce.services.employe.EmployeService;
+
+import jakarta.security.auth.message.AuthException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class BonCommandeService extends GenericService<BonDeCommande> {
@@ -31,6 +37,8 @@ public class BonCommandeService extends GenericService<BonDeCommande> {
     DemandeService demandeService;
     @Autowired
     ResultatProformaDetailsRepo resultatProformaDetailsRepo;
+    @Autowired
+    EmployeService empService;
 
     public List<BonDeCommande> genererBonDeCommande(int idProforma) {
         // Demandes an'ilay proforma groupé par nature
@@ -110,20 +118,10 @@ public class BonCommandeService extends GenericService<BonDeCommande> {
                 + String.format("%03d", count + 1);
     }
 
-    // public Map<Article, List<ResultatProformaDetails>> genererBonDeCommande(int
-    // idProforma) {
-    // // Demandes an'ilay proforma groupé par nature
-    // List<DemandeParNature> demandesParNatures =
-    // demandeService.findDemandeParNatureDeProforma(idProforma);
-
-    // // Résultat an'io proforma io groupé par nature
-    // List<ResultatProformaDetails> resultats = this.resultatProformaDetailsRepo
-    // .findResultatHorsTaxeOfProforma(idProforma);
-    // Map<Article, List<ResultatProformaDetails>> group = resultats.stream()
-    // .collect(Collectors.groupingBy(ResultatProformaDetails::getArticle));
-    // group.entrySet().forEach(g ->
-    // g.getValue().sort(Comparator.comparing(ResultatProformaDetails::getPu)));
-
-    // return group;
-    // }
+    @Transactional
+    public void valider(int id) throws AuthException {
+        Employe e = empService.getAuthenticated();
+        bonDeCommandeRepo.insererValidation(id, e.getId());
+        bonDeCommandeRepo.updateStatus(5, id);
+    }
 }

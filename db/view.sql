@@ -10,6 +10,7 @@ select sum(vdd.quantite) quantite, vdd.id_article from v_demande_details vdd whe
 create view v_demande_details as 
 select * from demande d join demande_details dtl on dtl.id_demande = d.id
 
+-- MIALISOA 30/11/2023
 -- resultat proforma en HORS - TAXE
 create view v_resultat_proforma_ht as
 select d.id, d.id_article, d.id_resultat_proforma, d.quantite_dispo,
@@ -37,3 +38,4 @@ create view v_statistique_proforma as select r.id_demande_proforma as id, coales
 v_nbr_reponse_proforma r
 left outer join v_nbr_fournisseur_proforma f
 on r.id_demande_proforma = f.id_demande_proforma;
+--  --------------------------------------------
