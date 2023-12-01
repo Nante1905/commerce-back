@@ -1,22 +1,28 @@
 package com.nante.commerce.model.facture;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.bonCommande.BonDeCommande;
+import com.nante.commerce.model.bonLivraison.BonDeLivraisonDetails;
 import com.nante.commerce.model.employe.Employe;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "facture")
-public class Facture {
+public class Facture extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
@@ -31,6 +37,17 @@ public class Facture {
     Employe employe;
     int etat;
     LocalDate jour_validation;
+    @OneToMany(mappedBy = "facture", cascade = CascadeType.PERSIST)
+    List<FactureDetails> details;
+
+    @PrePersist
+    public void prePersist() {
+        if (getDetails() != null && getDetails().size() > 0) {
+            for (FactureDetails d : details) {
+                d.setFacture(this);
+            }
+        }
+    }
 
     public int getId() {
         return id;
@@ -94,5 +111,13 @@ public class Facture {
 
     public void setJour_validation(LocalDate jour_validation) {
         this.jour_validation = jour_validation;
+    }
+
+    public List<FactureDetails> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<FactureDetails> details) {
+        this.details = details;
     }
 }

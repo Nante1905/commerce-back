@@ -1,5 +1,7 @@
 package com.nante.commerce.model.bonLivraison;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.item.Article;
 
 import jakarta.persistence.Entity;
@@ -12,7 +14,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "bon_livraison_details")
-public class BonDeLivraisonDetails {
+public class BonDeLivraisonDetails extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
@@ -20,6 +22,7 @@ public class BonDeLivraisonDetails {
     @JoinColumn(name = "id_article")
     Article article;
     double qte;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_bon_livraison")
     BonDeLivraison livraison;

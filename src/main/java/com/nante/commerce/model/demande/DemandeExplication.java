@@ -2,6 +2,7 @@ package com.nante.commerce.model.demande;
 
 import java.time.LocalDate;
 
+import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.employe.Employe;
 
 import jakarta.persistence.Entity;
@@ -14,13 +15,13 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "demande_explication")
-public class DemandeExplication {
+public class DemandeExplication extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
     String motif;
     LocalDate jour;
-    String text;
+    String texte;
     @ManyToOne
     @JoinColumn(name = "id_employe")
     Employe employe;
@@ -49,12 +50,12 @@ public class DemandeExplication {
         this.jour = jour;
     }
 
-    public String getText() {
-        return text;
+    public String getTexte() {
+        return texte;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setTexte(String text) {
+        this.texte = text;
     }
 
     public Employe getEmploye() {

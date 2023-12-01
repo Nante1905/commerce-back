@@ -1,5 +1,7 @@
 package com.nante.commerce.model.bonEntre;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.item.Article;
 
 import jakarta.persistence.Entity;
@@ -12,10 +14,8 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "bon_entre_details")
-public class BonEntreDetails {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+public class BonEntreDetails extends GenericModel {
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_bon_entre")
     BonEntre bonEntre;
@@ -23,14 +23,6 @@ public class BonEntreDetails {
     @ManyToOne
     @JoinColumn(name = "id_article")
     Article article;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public BonEntre getBonEntre() {
         return bonEntre;

@@ -210,6 +210,9 @@ create table bon_livraison (
     id_bon_commande integer not NULL references bon_commande(id),
     id_employe integer not NULL references employe(id)
 );
+alter table bon_livraison add jour_sortie date not null;
+alter table bon_livraison add jour_reception date not null default now();
+
 
 create table bon_livraison_details (
    id serial primary key,
@@ -220,9 +223,9 @@ create table bon_livraison_details (
 
 create table demande_explication (
    id serial primary key,
-   motif varchar(100),
+   motif varchar(250),
    jour date not null,
-   text text,
+   texte text,
    id_destinataire integer not NULL references employe(id)
 );
 
@@ -295,7 +298,7 @@ create table type_sortie (
 create table bon_sortie (
    id serial primary key,
    id_type integer not null references type_sortie(id),
-   id_direction integer not null references direction(id),
+   id_direction integer references direction(id),
    jour date not null default now(),
    id_employe integer not null references employe(id)
 );

@@ -1,5 +1,7 @@
 package com.nante.commerce.model.stock;
 
+import com.nante.commerce.crud.model.GenericModel;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -8,7 +10,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "type_sortie")
-public class TypeSortie {
+public class TypeSortie extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;

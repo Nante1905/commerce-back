@@ -1,18 +1,24 @@
 package com.nante.commerce.model.bonReception;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.nante.commerce.model.bonLivraison.BonDeLivraison;
+import com.nante.commerce.model.bonLivraison.BonDeLivraisonDetails;
 import com.nante.commerce.model.employe.Employe;
 
 import jakarta.annotation.Generated;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,6 +34,17 @@ public class BonReception {
     @ManyToOne
     @JoinColumn(name = "id_employe")
     Employe employe;
+    @OneToMany(mappedBy = "bonReception", cascade = CascadeType.PERSIST)
+    List<BonReceptionDetails> details;
+
+    @PrePersist
+    public void prePersist() {
+        if (getDetails() != null && getDetails().size() > 0) {
+            for (BonReceptionDetails d : details) {
+                d.setBonReception(this);
+            }
+        }
+    }
 
     public int getId() {
         return id;
@@ -59,5 +76,13 @@ public class BonReception {
 
     public void setEmploye(Employe employe) {
         this.employe = employe;
+    }
+
+    public List<BonReceptionDetails> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<BonReceptionDetails> details) {
+        this.details = details;
     }
 }
