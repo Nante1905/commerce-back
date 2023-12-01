@@ -4,12 +4,14 @@ import java.time.LocalDate;
 
 import com.nante.commerce.crud.model.GenericModel;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
+@Embeddable
 public class DemandeProforma extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +19,13 @@ public class DemandeProforma extends GenericModel {
     String reference;
     LocalDate delaiLivraison;
     LocalDate jourDemande;
+
+    public DemandeProforma() {
+    }
+
+    public DemandeProforma(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;

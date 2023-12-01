@@ -8,6 +8,8 @@ import com.nante.commerce.crud.service.GenericService;
 import com.nante.commerce.model.employe.Employe;
 import com.nante.commerce.repositories.employe.EmployeRepository;
 
+import jakarta.security.auth.message.AuthException;
+
 @Service
 public class EmployeService extends GenericService<Employe> {
     @Autowired
@@ -18,14 +20,13 @@ public class EmployeService extends GenericService<Employe> {
                 .orElseThrow(() -> new Exception("Identifiants incorrects"));
     }
 
-    public Employe findByEmail(String email) {
-        return this.employeRepository.findByEmail(email);
+    public Employe findByEmail(String email) throws AuthException {
+        return this.employeRepository.findByEmail(email)
+                .orElseThrow(() -> new AuthException("Aucun utilisateur connecté"));
     }
 
-    public Employe getAuthenticated() throws Exception {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        System.out.println("debug ================================ email: " + email);
-        Employe authenticated = this.findByEmail(email);
+    public Employe getAuthenticated() throws AuthException {
+        Employe authenticated = this.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         return authenticated;
     }
 }

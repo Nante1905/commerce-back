@@ -97,6 +97,11 @@ public class DemandeService extends GenericService<Demande> {
         return groupDemandeParNature(demandes);
     }
 
+    public List<DemandeParNature> findDemandeParNatureDeProforma(int idProforma) {
+        List<DemandeParDetails> demandes = this.demandeParDetailsRepo.findDemandeOfProforma(idProforma);
+        return groupDemandeParNature(demandes);
+    }
+
     // Zay demande mbola ouvert et article mbola tsy nandalo validation d'une
     // direction
     public List<DemandeParNature> findAllDemandeOuvertParDetailsParDirection(int idDirection) {
@@ -158,8 +163,6 @@ public class DemandeService extends GenericService<Demande> {
         DemandeParNature nature = new DemandeParNature();
 
         for (Article article : group.keySet()) {
-            System.out.println(article.getDesignation());
-
             nature = new DemandeParNature();
             nature.setArticle(article);
             for (DemandeParDetails details : group.get(article)) {

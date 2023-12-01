@@ -18,9 +18,18 @@ public class DemandeProformaFournisseur {
     @ManyToOne
     @JoinColumn(name = "id_fournisseur")
     Fournisseur fournisseur;
-
-    int idDemandeProforma;
     String reference;
+    @ManyToOne
+    @JoinColumn(name = "id_demande_proforma")
+    DemandeProforma demandeProforma;
+    int etat;
+
+    public DemandeProformaFournisseur() {
+    }
+
+    public DemandeProformaFournisseur(int id) {
+        this.id = id;
+    }
 
     public int getId() {
         return id;
@@ -38,20 +47,28 @@ public class DemandeProformaFournisseur {
         this.fournisseur = fournisseur;
     }
 
-    public int getIdDemandeProforma() {
-        return idDemandeProforma;
-    }
-
-    public void setIdDemandeProforma(int idDemandeProforma) {
-        this.idDemandeProforma = idDemandeProforma;
-    }
-
     public String getReference() {
         return reference;
     }
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public DemandeProforma getDemandeProforma() {
+        return demandeProforma;
+    }
+
+    public void setDemandeProforma(DemandeProforma demandeProforma) {
+        this.demandeProforma = demandeProforma;
+    }
+
+    public int getEtat() {
+        return etat;
+    }
+
+    public void setEtat(int etat) {
+        this.etat = etat;
     }
 
 }

@@ -104,7 +104,7 @@ public class FournisseurService extends GenericService<Fournisseur> {
         for (Fournisseur fournisseur : fournisseurs) {
             DemandeProformaFournisseur demandeProformaFournisseur = new DemandeProformaFournisseur();
             demandeProformaFournisseur.setFournisseur(fournisseur);
-            demandeProformaFournisseur.setIdDemandeProforma(demandeProforma.getId());
+            demandeProformaFournisseur.setDemandeProforma(demandeProforma);
             demandeProformaFournisseur.setReference(
                     this.demandeService.generateReferenceDemandeProformaFournisseur(demandeProforma, fournisseur));
 
