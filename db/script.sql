@@ -182,4 +182,23 @@ CREATE TABLE chef_direction(
 -- MIAMPY POUR PROFORMA
 alter table demande_proforma_fournisseur add reference VARCHAR(50) unique;
 alter table demande_proforma_fournisseur add etat integer not null default 0;
-alter table resultat_proforma alter column date_saisie set default now()
+alter table resultat_proforma alter column date_saisie set default now();
+alter table bon_commande alter column date_creation set default now();
+alter table bon_commande_details drop column pu_ttc;
+alter table bon_commande_details drop column tva;
+alter table bon_commande add column id_demande_proforma integer not null references demande_proforma(id);
+alter table resultat_proforma_details drop constraint resultat_proforma_details_pkey;
+alter table resultat_proforma_details add column id serial;
+alter table resultat_proforma_details add PRIMARY key (id);
+alter table bon_commande_details drop constraint bon_commande_details_pkey;
+alter table bon_commande_details add column id serial;
+alter table bon_commande_details add PRIMARY key (id);
+alter table bon_commande drop column status
+alter table bon_commande add status integer default 0
+
+create table validation_bon_commande (
+   id serial PRIMARY key,
+   jour date not null default now(),
+   id_bon_commande integer not NULL references bon_commande(id),
+   id_employe integer not null references employe(id)
+)
