@@ -39,3 +39,14 @@ v_nbr_reponse_proforma r
 left outer join v_nbr_fournisseur_proforma f
 on r.id_demande_proforma = f.id_demande_proforma;
 --  --------------------------------------------
+
+-- MIALISOA STOCK
+create view v_facture_details_ht as
+select d.id, d.id_facture, d.id_article, d.qte,
+case
+	when f.format_prix = 5 then pu/1.2
+	else pu
+end pu
+from facture f
+	join facture_details d
+	on d.id_facture = f.id
