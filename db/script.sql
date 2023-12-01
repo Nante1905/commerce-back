@@ -201,4 +201,109 @@ create table validation_bon_commande (
    jour date not null default now(),
    id_bon_commande integer not NULL references bon_commande(id),
    id_employe integer not null references employe(id)
-)
+);
+
+--------sarobidy script stock
+
+create table bon_livraison (
+    id serial primary key,
+    id_bon_commande integer not NULL references bon_commande(id),
+    id_employe integer not NULL references employe(id)
+);
+
+create table bon_livraison_details (
+   id serial primary key,
+   id_article integer not NULL references article(id),
+   qte double precision,
+   id_bon_livraison integer not NULL references bon_livraison(id)
+);
+
+create table demande_explication (
+   id serial primary key,
+   motif varchar(100),
+   jour date not null,
+   text text,
+   id_destinataire integer not NULL references employe(id)
+);
+
+create table facture (
+   id serial primary key,
+   format_prix integer,
+   id_bon_commande integer not Null references bon_commande(id),
+   jour date not null,
+   jour_reception date not null,
+   id_employe integer not null references employe(id),
+   etat integer,
+   jour_validation date not null
+);
+
+create table facture_details (
+   id serial primary key,
+   id_facture integer not null references facture(id),
+   id_article integer not NULL references article(id),
+   qte double precision,
+   pu double precision
+);
+
+create table bon_entre (
+   id serial primary key,
+   id_bon_livraison integer not NULL references bon_livraison(id),
+   jour date not null default now(),
+   id_employe integer not null references employe(id)
+);
+
+create table bon_entre_details (
+   id serial primary key,
+   id_bon_entre integer not null references bon_entre(id),
+   qte double precision,
+   id_article integer not NULL references article(id)
+);
+
+create table entre_stock (
+   id serial primary key,
+   jour date not null,
+   id_bon_entre integer not null references bon_entre(id)
+);
+
+create table entre_stock_details (
+   id serial primary key,
+   id_entre_stock integer not null references entre_stock(id),
+   id_article integer not NULL references article(id),
+   pu_ht double precision,
+   qte double precision
+);
+
+create table type_sortie (
+   id serial primary key,
+   nom varchar(100)
+);
+
+create table bon_sortie (
+   id serial primary key,
+   id_type integer not null references type_sortie(id),
+   id_direction integer not null references direction(id),
+   jour date not null default now(),
+   id_employe integer not null references employe(id)
+);
+
+create table bon_sortie_details (
+   id serial primary key,
+   id_bon_sortie integer not null references bon_sortie(id),
+   id_article integer not NULL references article(id),
+   qte double precision
+);
+
+create table sortie_stock (
+   id serial primary key,
+   jour date not null,
+   id_bon_sortie integer not null references bon_sortie(id)
+);
+
+create table sortie_stock_details (
+   id serial primary key,
+   id_sortie_stock integer not null references sortie_stock(id),
+   id_article integer not NULL references article(id),
+   pu_ht double precision,
+   qte double precision,
+   id_entre_stock integer not null references entre_stock(id)
+);
