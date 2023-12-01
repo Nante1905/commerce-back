@@ -193,8 +193,8 @@ alter table resultat_proforma_details add PRIMARY key (id);
 alter table bon_commande_details drop constraint bon_commande_details_pkey;
 alter table bon_commande_details add column id serial;
 alter table bon_commande_details add PRIMARY key (id);
-alter table bon_commande drop column status
-alter table bon_commande add status integer default 0
+alter table bon_commande drop column status;
+alter table bon_commande add status integer default 0;
 
 create table validation_bon_commande (
    id serial PRIMARY key,
