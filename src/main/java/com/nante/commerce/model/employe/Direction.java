@@ -15,6 +15,7 @@ public class Direction extends GenericModel {
     int id;
 
     String nom;
+    String code;
 
     public int getId() {
         return id;
@@ -30,6 +31,14 @@ public class Direction extends GenericModel {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,7 @@ public class DemandeController extends GenericController<Demande> {
 
     @Override
     @PostMapping
+    @Secured("EMP")
     public ResponseEntity<?> save(@RequestBody Demande model) {
         try {
             Demande results = demandeService.save(model);
@@ -50,18 +52,21 @@ public class DemandeController extends GenericController<Demande> {
     // }
     // }
 
+    @Secured("ACH")
     @GetMapping("/nature")
     // Achat ihany no tokony mahita
     public ResponseEntity<?> findByNature() {
         return ResponseEntity.ok(new Response(demandeService.findAllDemandeOuvertParDetails(), "OK"));
     }
 
+    @Secured("ACH")
     @GetMapping("/nature/valide")
     // Achat ihany no tokony mahita
     public ResponseEntity<?> findValideByNature() {
         return ResponseEntity.ok(new Response(demandeService.findAllDemandeValideParDetails(), "OK"));
     }
 
+    @Secured("CHEF")
     @GetMapping("/nature/service")
     // Chef ihany no tokony mahita
     public ResponseEntity<?> findByNatureOfDirection() throws Exception {
@@ -73,6 +78,7 @@ public class DemandeController extends GenericController<Demande> {
                         null));
     }
 
+    @Secured("CHEF")
     @PostMapping("validation")
     public ResponseEntity<?> validerDemande(@RequestBody HashMap<String, List<SelectionDetailsDemande>> inputs) {
         List<SelectionDetailsDemande> selected = inputs.get("selected");

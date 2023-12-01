@@ -20,6 +20,7 @@ public class Employe extends GenericModel {
     String dateNaissance;
     String dateEmbauche;
     String email;
+    String codePoste;
 
     @OneToOne
     @JoinColumn(name = "id_direction", referencedColumnName = "id")
@@ -79,6 +80,14 @@ public class Employe extends GenericModel {
 
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    public String getCodePoste() {
+        return codePoste;
+    }
+
+    public void setCodePoste(String codePoste) {
+        this.codePoste = codePoste;
     }
 
 }

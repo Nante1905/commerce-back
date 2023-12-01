@@ -2,6 +2,7 @@ package com.nante.commerce.repositories.demande;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.nante.commerce.crud.repository.GenericRepository;
@@ -15,5 +16,9 @@ public interface DemandeRepository extends GenericRepository<Demande> {
     List<Object[]> findArticlesWithQteOf(List<Integer> demandeIds);
 
     List<Demande> findByEtat(int etat);
+
+    @Modifying
+    @Query(nativeQuery = true, value = "update demande set etat = 10 where id in (select id_demande from proforma_besoin where id_proforma = ?1)")
+    public void fermerDemande(int id);
 
 }

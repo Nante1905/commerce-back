@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +34,7 @@ public class FournisseurController extends GenericController<Fournisseur> {
         }
     }
 
+    @Secured({ "ACH EMP", "ACH CHEF" })
     @PostMapping("/demande-proforma")
     public ResponseEntity<Response> sendDemandeProforma(@RequestBody HashMap<String, Object> body) {
         String date = (String) body.get("livraison");

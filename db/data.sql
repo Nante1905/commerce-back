@@ -29,6 +29,22 @@ insert into fournisseur(nom, reference, email, telephone) values ('LEADER PRICE 
 insert into fournisseur_categorie(id_fournisseur, id_categorie) values 
 (1, 2),
 (1, 3),
-(2, 2)
+(2, 2);
+
+-- MIALISOA AUTHORIZATION
+update direction set code = 'RH' where nom = 'Direction des Ressources Humaines';
+update direction set code = 'ACH' where nom = 'Direction des Achats';
+update direction set code = 'FIN' where nom = 'Direction Financière';
+update direction set code = 'DSI' where nom = 'Direction des Systèmes d''Information';
+
+update employe set code_poste = 'EMP' where id in (1, 2);
+update employe set code_poste = 'CHEF' where id = 3;
+INSERT INTO employe (nom, prenom, date_naissance, date_embauche, email, mot_de_passe, id_direction, code_poste)
+VALUES
+  ('Razanakoto', 'Emilie', '1990-01-01', '2020-01-01', 'emilie@achat.com', 'emilie', 2, 'CHEF'),
+  ('Andrialalaina', 'Naivo', '1990-01-01', '2020-01-01', 'naivo@achat.com', 'naivo', 2, 'MAG'),
+  ('Herinaivo', 'Liva', '1990-01-01', '2020-01-01', 'liva@achat.com', 'liva', 2, 'RECEP'),
+  ('Rabe', 'Tiana', '1990-01-01', '2020-01-01', 'tiana@dsi.com', 'tiana', 4, 'DG');
 
 
+insert into mode_paiement(nom) values ('Chèque', 'Virement bancaire');

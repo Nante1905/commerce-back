@@ -201,4 +201,9 @@ create table validation_bon_commande (
    jour date not null default now(),
    id_bon_commande integer not NULL references bon_commande(id),
    id_employe integer not null references employe(id)
-)
+);
+
+
+-- MIALISOA AUTHORIZATION
+alter table direction add column code VARCHAR(20);
+alter table employe add column code_poste VARCHAR(20);

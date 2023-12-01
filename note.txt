@@ -1,0 +1,4 @@
+ETAT Demande
+0: Crée
+5: Validé par chef service
+10: EFa misy bon de commande

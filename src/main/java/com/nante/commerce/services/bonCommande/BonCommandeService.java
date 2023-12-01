@@ -19,8 +19,10 @@ import com.nante.commerce.model.demande.DemandeParNature;
 import com.nante.commerce.model.employe.Employe;
 import com.nante.commerce.model.item.Article;
 import com.nante.commerce.model.item.Fournisseur;
+import com.nante.commerce.model.item.ModePaiement;
 import com.nante.commerce.model.proforma.resultat.ResultatProformaDetails;
 import com.nante.commerce.repositories.bonCommande.BonDeCommandeRepo;
+import com.nante.commerce.repositories.demande.DemandeRepository;
 import com.nante.commerce.repositories.proforma.resultat.ResultatProformaDetailsRepo;
 import com.nante.commerce.services.authentication.AuthenticationService;
 import com.nante.commerce.services.demande.DemandeService;
@@ -39,6 +41,8 @@ public class BonCommandeService extends GenericService<BonDeCommande> {
     ResultatProformaDetailsRepo resultatProformaDetailsRepo;
     @Autowired
     EmployeService empService;
+    @Autowired
+    DemandeRepository demandeRepo;
 
     public List<BonDeCommande> genererBonDeCommande(int idProforma) {
         // Demandes an'ilay proforma groupé par nature
@@ -119,9 +123,11 @@ public class BonCommandeService extends GenericService<BonDeCommande> {
     }
 
     @Transactional
-    public void valider(int id) throws AuthException {
+    public void valider(int id, ModePaiement paiement) throws Exception {
         Employe e = empService.getAuthenticated();
         bonDeCommandeRepo.insererValidation(id, e.getId());
-        bonDeCommandeRepo.updateStatus(5, id);
+        bonDeCommandeRepo.updateStatusAndModePaiement(5, paiement.getId(), id);
+        BonDeCommande b = find(id);
+        demandeRepo.fermerDemande(b.getIdDemandeProforma());
     }
 }

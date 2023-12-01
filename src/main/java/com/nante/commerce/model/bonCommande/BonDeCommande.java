@@ -8,7 +8,9 @@ import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.item.Fournisseur;
 import com.nante.commerce.model.item.ModePaiement;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -22,11 +24,11 @@ import jakarta.persistence.Table;
 public class BonDeCommande extends GenericModel {
     String reference;
     LocalDate dateCreation;
-    boolean livraisonPartielle;
+    Boolean livraisonPartielle;
     LocalDate delaiLivraison;
     int status;
     @ManyToOne
-    @JoinColumn(name = "id_mode_paiement")
+    @JoinColumn(name = "id_mode_paiement", nullable = true)
     ModePaiement paiement;
     @ManyToOne
     @JoinColumn(name = "id_fournisseur")
@@ -119,5 +121,13 @@ public class BonDeCommande extends GenericModel {
 
     public void setIdDemandeProforma(int idDemandeProforma) {
         this.idDemandeProforma = idDemandeProforma;
+    }
+
+    public Boolean getLivraisonPartielle() {
+        return livraisonPartielle;
+    }
+
+    public void setLivraisonPartielle(Boolean livraisonPartielle) {
+        this.livraisonPartielle = livraisonPartielle;
     }
 }

@@ -1,8 +1,13 @@
 package com.nante.commerce.services.authentication;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -27,7 +32,15 @@ public class CustomUserDetailsService implements UserDetailsService {
             e.printStackTrace();
             throw new UsernameNotFoundException(e.getMessage());
         }
-        return new User(employe.getEmail(), "", new ArrayList<>());
+        return new User(employe.getEmail(), "", getAuthorities(employe));
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities(Employe emp) {
+        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
+        authorities.add(new SimpleGrantedAuthority("EMP"));
+        authorities.add(new SimpleGrantedAuthority(emp.getDirection().getCode()));
+        authorities.add(new SimpleGrantedAuthority(emp.getDirection().getCode() + " " + emp.getCodePoste()));
+        return authorities;
     }
 
 }

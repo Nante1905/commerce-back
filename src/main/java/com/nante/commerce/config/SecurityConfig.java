@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -18,6 +19,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @Configuration
 @EnableWebSecurity()
+@EnableMethodSecurity(securedEnabled = true)
 public class SecurityConfig {
 
     // @Autowired
@@ -31,10 +33,10 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     req
-                            // .requestMatchers("/auth/**").permitAll()
-                            // .requestMatchers("/error/**").permitAll()
-                            // .anyRequest().authenticated();
-                            .anyRequest().permitAll();
+                            .requestMatchers("/auth/**").permitAll()
+                            .requestMatchers("/error/**").permitAll()
+                            .anyRequest().authenticated();
+                    // .anyRequest().permitAll();
                 })
                 .addFilterBefore(this.interceptor(), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())

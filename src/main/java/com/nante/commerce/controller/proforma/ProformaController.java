@@ -2,6 +2,7 @@ package com.nante.commerce.controller.proforma;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ public class ProformaController {
     @Autowired
     BonCommandeService bonCommandeService;
 
+    @Secured({ "ACH EMP", "ACH CHEF" })
     @GetMapping("/sans-reponse")
     public ResponseEntity<?> findProformaSansReponse() {
         try {
@@ -38,6 +40,7 @@ public class ProformaController {
         }
     }
 
+    @Secured({ "ACH EMP", "ACH CHEF" })
     @GetMapping("/reponse")
     public ResponseEntity<?> findResultatProforma() {
         try {
@@ -48,6 +51,7 @@ public class ProformaController {
         }
     }
 
+    @Secured({ "ACH EMP", "ACH CHEF" })
     @PostMapping("{id}/reponse")
     public ResponseEntity<?> saveResultatProforma(@PathVariable("id") int id, @RequestBody ResultatProforma resultat) {
         try {
@@ -60,6 +64,7 @@ public class ProformaController {
         }
     }
 
+    @Secured({ "ACH EMP", "ACH CHEF" })
     @GetMapping("{id}/bon-commande")
     public ResponseEntity<?> generer(@PathVariable("id") int id) {
         try {
@@ -70,6 +75,7 @@ public class ProformaController {
         }
     }
 
+    @Secured({ "ACH EMP", "ACH CHEF" })
     @GetMapping("avec-reponse")
     public ResponseEntity<?> findAllAvecReponse() {
         try {
