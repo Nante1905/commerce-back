@@ -32,3 +32,8 @@ group by id_demande_proforma
 create view v_nbr_fournisseur_proforma as select id_demande_proforma, count(id_fournisseur) as nbr 
 from demande_proforma_fournisseur 
 group by id_demande_proforma;
+
+create view v_statistique_proforma as select r.id_demande_proforma as id, coalesce(r.nbr, 0) reponse, coalesce(f.nbr, 0) demande from 
+v_nbr_reponse_proforma r
+left outer join v_nbr_fournisseur_proforma f
+on r.id_demande_proforma = f.id_demande_proforma;

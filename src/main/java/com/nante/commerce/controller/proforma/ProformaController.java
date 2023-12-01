@@ -69,4 +69,14 @@ public class ProformaController {
             return ResponseEntity.status(500).body(new Response(e.getMessage()));
         }
     }
+
+    @GetMapping("avec-reponse")
+    public ResponseEntity<?> findAllAvecReponse() {
+        try {
+            return ResponseEntity.ok().body(new Response(proformaService.findAllAvecReponse(), null));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(new Response(e.getMessage()));
+        }
+    }
 }
