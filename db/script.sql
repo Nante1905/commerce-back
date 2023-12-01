@@ -245,9 +245,23 @@ create table facture_details (
    pu double precision
 );
 
-create table bon_entre (
+create table bon_reception (
    id serial primary key,
    id_bon_livraison integer not NULL references bon_livraison(id),
+   jour date not null default now(),
+   id_employe integer not null references employe(id)
+);
+
+create table bon_reception_details (
+   id serial primary key,
+   id_bon_reception integer not null references bon_reception(id),
+   qte double precision,
+   id_article integer not NULL references article(id)
+);
+
+create table bon_entre (
+   id serial primary key,
+   id_bon_reception  integer not NULL references bon_reception (id),
    jour date not null default now(),
    id_employe integer not null references employe(id)
 );
