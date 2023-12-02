@@ -26,6 +26,7 @@ public class BonDeLivraison extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+    String reference;
     @OneToOne
     @JoinColumn(name = "id_bon_commande")
     BonDeCommande bonDeCommande;
@@ -92,5 +93,13 @@ public class BonDeLivraison extends GenericModel {
 
     public void setDetails(List<BonDeLivraisonDetails> details) {
         this.details = details;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 }

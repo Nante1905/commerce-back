@@ -1,5 +1,7 @@
 package com.nante.commerce.model.stock;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.item.Article;
 
 import jakarta.persistence.Entity;
@@ -12,14 +14,18 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "entre_stock_details")
-public class EntreStockDetails {
+public class EntreStockDetails extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_entre_stock")
     EntreStock entreStock;
+    @ManyToOne
+    @JoinColumn(name = "id_article")
     Article article;
+    String refArticle;
     double pu_ht;
     double qte;
 
@@ -61,6 +67,14 @@ public class EntreStockDetails {
 
     public void setQte(double qte) {
         this.qte = qte;
+    }
+
+    public String getRefArticle() {
+        return refArticle;
+    }
+
+    public void setRefArticle(String refArticle) {
+        this.refArticle = refArticle;
     }
 
 }

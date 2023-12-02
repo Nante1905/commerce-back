@@ -211,6 +211,7 @@ alter table employe add column code_poste VARCHAR(20);
 
 create table bon_livraison (
     id serial primary key,
+    reference varchar(150) not null unique,
     id_bon_commande integer not NULL references bon_commande(id),
     id_employe integer not NULL references employe(id)
 );
@@ -235,6 +236,7 @@ create table demande_explication (
 
 create table facture (
    id serial primary key,
+   reference varchar(150) not null unique,
    format_prix integer,
    id_bon_commande integer not Null references bon_commande(id),
    jour date not null,
@@ -254,6 +256,7 @@ create table facture_details (
 
 create table bon_reception (
    id serial primary key,
+   reference varchar(150) not null unique, 
    id_bon_livraison integer not NULL references bon_livraison(id),
    jour date not null default now(),
    id_employe integer not null references employe(id)
@@ -266,11 +269,27 @@ create table bon_reception_details (
    id_article integer not NULL references article(id)
 );
 
+create table entre_stock (
+   id serial primary key,
+   jour date not null default now(),
+   id_bon_reception  integer not NULL references bon_reception (id),
+   id_employe integer not null references employe(id)
+);
+
+create table entre_stock_details (
+   id serial primary key,
+   id_entre_stock integer not null references entre_stock(id),
+   id_article integer not NULL references article(id),
+   ref_article varchar(50) not null references article(reference),
+   pu_ht double precision,
+   qte double precision
+);
+
 create table bon_entre (
    id serial primary key,
-   id_bon_reception  integer not NULL references bon_reception (id),
+   reference varchar(150) not null unique, 
    jour date not null default now(),
-   id_employe integer not null references employe(id)
+   id_entre integer not null references entre_stock(id)
 );
 
 create table bon_entre_details (
@@ -280,31 +299,41 @@ create table bon_entre_details (
    id_article integer not NULL references article(id)
 );
 
-create table entre_stock (
-   id serial primary key,
-   jour date not null,
-   id_bon_entre integer not null references bon_entre(id)
-);
-
-create table entre_stock_details (
-   id serial primary key,
-   id_entre_stock integer not null references entre_stock(id),
-   id_article integer not NULL references article(id),
-   pu_ht double precision,
-   qte double precision
-);
-
 create table type_sortie (
    id serial primary key,
    nom varchar(100)
 );
 
+create table sortie_stock (
+   id serial primary key,
+   jour date not null,
+   id_type integer references type_sortie(id),
+   id_direction integer references direction(id),
+   id_employe integer not null references employe(id)
+);
+
+create table sortie_stock_details (
+   id serial primary key,
+   id_sortie_stock integer not null references sortie_stock(id),
+   id_article integer not NULL references article(id),
+   qte double precision
+);
+
+create table sortie_stock_repartition (
+   id serial primary key,
+   id_sortie_details integer not null references sortie_stock_details(id),
+   id_article integer not NULL references article(id),
+   ref_article varchar(50) not null references article(reference),
+   pu_ht double precision,
+   qte double precision,
+   id_entre_stock integer  references entre_stock(id)
+);
+
 create table bon_sortie (
    id serial primary key,
-   id_type integer not null references type_sortie(id),
-   id_direction integer references direction(id),
+   reference varchar(150) not null unique, 
    jour date not null default now(),
-   id_employe integer not null references employe(id)
+   id_sortie integer not null references sortie_stock(id)
 );
 
 create table bon_sortie_details (
@@ -314,17 +343,3 @@ create table bon_sortie_details (
    qte double precision
 );
 
-create table sortie_stock (
-   id serial primary key,
-   jour date not null,
-   id_bon_sortie integer not null references bon_sortie(id)
-);
-
-create table sortie_stock_details (
-   id serial primary key,
-   id_sortie_stock integer not null references sortie_stock(id),
-   id_article integer not NULL references article(id),
-   pu_ht double precision,
-   qte double precision,
-   id_entre_stock integer not null references entre_stock(id)
-);

@@ -9,6 +9,7 @@ import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.bonLivraison.BonDeLivraisonDetails;
 import com.nante.commerce.model.employe.Direction;
 import com.nante.commerce.model.employe.Employe;
+import com.nante.commerce.model.stock.SortieStock;
 import com.nante.commerce.model.stock.TypeSortie;
 
 import jakarta.persistence.CascadeType;
@@ -19,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -29,16 +31,11 @@ public class BonSortie extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    @ManyToOne
-    @JoinColumn(name = "id_type")
-    TypeSortie type;
-    @ManyToOne
-    @JoinColumn(name = "id_direction")
-    Direction direction;
+    String reference;
     LocalDate jour;
-    @ManyToOne
-    @JoinColumn(name = "id_employe")
-    Employe employe;
+    @OneToOne
+    @JoinColumn(name = "id_sortie")
+    SortieStock sortie;
     @OneToMany(mappedBy = "sortie", cascade = CascadeType.PERSIST)
     List<BonSortieDetails> details;
 
@@ -59,22 +56,6 @@ public class BonSortie extends GenericModel {
         this.id = id;
     }
 
-    public TypeSortie getType() {
-        return type;
-    }
-
-    public void setType(TypeSortie type) {
-        this.type = type;
-    }
-
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
-
     public LocalDate getJour() {
         return jour;
     }
@@ -83,19 +64,27 @@ public class BonSortie extends GenericModel {
         this.jour = jour;
     }
 
-    public Employe getEmploye() {
-        return employe;
-    }
-
-    public void setEmploye(Employe employe) {
-        this.employe = employe;
-    }
-
     public List<BonSortieDetails> getDetails() {
         return details;
     }
 
     public void setDetails(List<BonSortieDetails> details) {
         this.details = details;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public SortieStock getSortie() {
+        return sortie;
+    }
+
+    public void setSortie(SortieStock sortie) {
+        this.sortie = sortie;
     }
 }

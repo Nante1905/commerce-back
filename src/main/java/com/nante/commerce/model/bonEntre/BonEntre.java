@@ -28,13 +28,8 @@ public class BonEntre extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    @OneToOne
-    @JoinColumn(name = "id_bon_reception")
-    BonReception bonReception;
     LocalDate jour;
-    @ManyToOne
-    @JoinColumn(name = "id_employe")
-    Employe employe;
+    String reference;
     @OneToMany(mappedBy = "bonEntre", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     List<BonEntreDetails> details;
 
@@ -55,28 +50,12 @@ public class BonEntre extends GenericModel {
         this.id = id;
     }
 
-    public BonReception getBonReception() {
-        return bonReception;
-    }
-
-    public void setBonReception(BonReception bonReception) {
-        this.bonReception = bonReception;
-    }
-
     public LocalDate getJour() {
         return jour;
     }
 
     public void setJour(LocalDate jour) {
         this.jour = jour;
-    }
-
-    public Employe getEmploye() {
-        return employe;
-    }
-
-    public void setEmploye(Employe employe) {
-        this.employe = employe;
     }
 
     public List<BonEntreDetails> getDetails() {
@@ -86,4 +65,13 @@ public class BonEntre extends GenericModel {
     public void setDetails(List<BonEntreDetails> details) {
         this.details = details;
     }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
 }
