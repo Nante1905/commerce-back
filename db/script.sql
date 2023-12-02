@@ -328,3 +328,17 @@ create table sortie_stock_details (
    qte double precision,
    id_entre_stock integer not null references entre_stock(id)
 );
+---------sarobidy
+create table accuse_reception (
+   id serial primary key,
+   id_bon_sortie integer not null references bon_sortie(id),
+   jour date not null,
+   id_employe integer not null references employe(id)
+);
+
+create table accuse_reception_details (
+   id serial primary key,
+   id_accuse_reception integer not null references accuse_reception(id),
+   id_article integer not null references article(id),
+   qte double precision
+);
