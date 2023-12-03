@@ -7,7 +7,7 @@ public class EtatStock {
     LocalDate debut;
     LocalDate fin;
     List<DetailsEtatStock> details;
-    boolean montant = true;
+    boolean avecMontant = true;
 
     public void setDebut(String debut) {
         if (debut == null) {
@@ -71,12 +71,12 @@ public class EtatStock {
         this.details = details;
     }
 
-    public boolean isMontant() {
-        return montant;
+    public boolean isAvecMontant() {
+        return avecMontant;
     }
 
-    public void setMontant(boolean montant) {
-        this.montant = montant;
+    public void setAvecMontant(boolean avecMontant) {
+        this.avecMontant = avecMontant;
     }
 
 }

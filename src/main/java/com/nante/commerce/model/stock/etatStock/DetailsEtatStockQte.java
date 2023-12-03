@@ -14,6 +14,10 @@ public class DetailsEtatStockQte implements Serializable {
     public DetailsEtatStockQte() {
     }
 
+    public double getReste() {
+        return (this.getQteEntre() - this.getQteSortie()) + this.getQteInitial();
+    }
+
     public DetailsEtatStockQte(DetailsEtatStock d) {
         setArticle(d.getArticle());
         setQteInitial(d.getQteInitial());

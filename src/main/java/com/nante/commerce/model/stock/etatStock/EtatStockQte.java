@@ -8,7 +8,7 @@ public class EtatStockQte {
     LocalDate debut;
     LocalDate fin;
     List<DetailsEtatStockQte> details;
-    boolean montant = false;
+    boolean avecMontant = false;
 
     public EtatStockQte() {
     }
@@ -26,14 +26,6 @@ public class EtatStockQte {
             setDetails(new ArrayList<DetailsEtatStockQte>());
         }
         details.add(d);
-    }
-
-    public boolean isMontant() {
-        return montant;
-    }
-
-    public void setMontant(boolean montant) {
-        this.montant = montant;
     }
 
     public void setDebut(String debut) {
@@ -81,6 +73,14 @@ public class EtatStockQte {
 
     public void setDetails(List<DetailsEtatStockQte> details) {
         this.details = details;
+    }
+
+    public boolean isAvecMontant() {
+        return avecMontant;
+    }
+
+    public void setAvecMontant(boolean avecMontant) {
+        this.avecMontant = avecMontant;
     }
 
 }

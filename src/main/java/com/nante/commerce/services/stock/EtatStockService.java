@@ -44,7 +44,7 @@ public class EtatStockService {
         etatStock.setDebut(debut);
         etatStock.setFin(fin);
         List<DetailsEtatStock> stocks = new ArrayList<DetailsEtatStock>();
-        stocks = getDetailsStock(debut, fin, refArticle);
+        stocks = getDetailsStock(etatStock.getDebutString(), etatStock.getFinString(), refArticle);
         for (DetailsEtatStock s : stocks) {
             s.setArticle(articleRepo.findByReference(s.getRefArticle()).get(0));
         }
