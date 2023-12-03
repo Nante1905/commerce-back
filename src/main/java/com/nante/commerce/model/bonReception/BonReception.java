@@ -3,6 +3,7 @@ package com.nante.commerce.model.bonReception;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.bonLivraison.BonDeLivraison;
 import com.nante.commerce.model.bonLivraison.BonDeLivraisonDetails;
 import com.nante.commerce.model.employe.Employe;
@@ -23,10 +24,11 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "bon_reception")
-public class BonReception {
+public class BonReception extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+    String reference;
     @OneToOne
     @JoinColumn(name = "id_bon_livraison")
     BonDeLivraison bonDeLivraison;
@@ -84,5 +86,13 @@ public class BonReception {
 
     public void setDetails(List<BonReceptionDetails> details) {
         this.details = details;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 }

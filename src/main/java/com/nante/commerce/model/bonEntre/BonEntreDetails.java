@@ -24,6 +24,15 @@ public class BonEntreDetails extends GenericModel {
     @JoinColumn(name = "id_article")
     Article article;
 
+    public BonEntreDetails(BonEntre bonEntre, double qte, Article article) {
+        setBonEntre(bonEntre);
+        setQte(qte);
+        setArticle(article);
+    }
+
+    public BonEntreDetails() {
+    }
+
     public BonEntre getBonEntre() {
         return bonEntre;
     }

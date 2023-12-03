@@ -1,32 +1,48 @@
 package com.nante.commerce.model.stock;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.item.Article;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "sortie_stock_details")
-public class SortieStockDetails {
+public class SortieStockDetails extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "id_sortie_stock")
     SortieStock sortieStock;
     @ManyToOne
     @JoinColumn(name = "id_article")
     Article article;
-    double pu_ht;
     double qte;
-    @ManyToOne
-    @JoinColumn(name = "id_entre_stock")
-    EntreStock entreStock;
+    @OneToMany(mappedBy = "sortieStockDetails", cascade = CascadeType.PERSIST)
+    List<SortieStockRepartition> repartition;
+
+    @PrePersist
+    public void prePersist() {
+        if (getRepartition() != null && getRepartition().size() > 0) {
+            for (SortieStockRepartition r : repartition) {
+                r.setSortieStockDetails(this);
+            }
+        }
+    }
 
     public int getId() {
         return id;
@@ -52,14 +68,6 @@ public class SortieStockDetails {
         this.article = article;
     }
 
-    public double getPu_ht() {
-        return pu_ht;
-    }
-
-    public void setPu_ht(double pu_ht) {
-        this.pu_ht = pu_ht;
-    }
-
     public double getQte() {
         return qte;
     }
@@ -68,11 +76,11 @@ public class SortieStockDetails {
         this.qte = qte;
     }
 
-    public EntreStock getEntreStock() {
-        return entreStock;
+    public List<SortieStockRepartition> getRepartition() {
+        return repartition;
     }
 
-    public void setEntreStock(EntreStock entreStock) {
-        this.entreStock = entreStock;
+    public void setRepartition(List<SortieStockRepartition> repartition) {
+        this.repartition = repartition;
     }
 }

@@ -44,6 +44,10 @@ public class BonCommandeService extends GenericService<BonDeCommande> {
     @Autowired
     DemandeRepository demandeRepo;
 
+    public List<BonDeCommande> findBonDeCommandesValides() {
+        return bonDeCommandeRepo.findByStatus(5);
+    }
+
     public List<BonDeCommande> genererBonDeCommande(int idProforma) {
         // Demandes an'ilay proforma groupé par nature
         List<DemandeParNature> demandesParNatures = demandeService.findDemandeParNatureDeProforma(idProforma);

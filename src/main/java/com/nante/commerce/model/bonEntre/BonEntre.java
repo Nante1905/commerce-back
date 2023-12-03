@@ -1,6 +1,7 @@
 package com.nante.commerce.model.bonEntre;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.nante.commerce.crud.model.GenericModel;
@@ -28,13 +29,8 @@ public class BonEntre extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    @OneToOne
-    @JoinColumn(name = "id_bon_reception")
-    BonReception bonReception;
     LocalDate jour;
-    @ManyToOne
-    @JoinColumn(name = "id_employe")
-    Employe employe;
+    String reference;
     @OneToMany(mappedBy = "bonEntre", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     List<BonEntreDetails> details;
 
@@ -47,20 +43,19 @@ public class BonEntre extends GenericModel {
         }
     }
 
+    public void addDetails(BonEntreDetails b) {
+        if (this.getDetails() == null) {
+            setDetails(new ArrayList<BonEntreDetails>());
+        }
+        this.details.add(b);
+    }
+
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public BonReception getBonReception() {
-        return bonReception;
-    }
-
-    public void setBonReception(BonReception bonReception) {
-        this.bonReception = bonReception;
     }
 
     public LocalDate getJour() {
@@ -71,14 +66,6 @@ public class BonEntre extends GenericModel {
         this.jour = jour;
     }
 
-    public Employe getEmploye() {
-        return employe;
-    }
-
-    public void setEmploye(Employe employe) {
-        this.employe = employe;
-    }
-
     public List<BonEntreDetails> getDetails() {
         return details;
     }
@@ -86,4 +73,13 @@ public class BonEntre extends GenericModel {
     public void setDetails(List<BonEntreDetails> details) {
         this.details = details;
     }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
 }

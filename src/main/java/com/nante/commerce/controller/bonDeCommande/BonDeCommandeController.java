@@ -19,14 +19,24 @@ import jakarta.security.auth.message.AuthException;
 
 @RestController
 @RequestMapping("bon-commande")
-public class BonDeCommandeController {
+public class BonDeCommandeController extends GenericController<BonDeCommande> {
     @Autowired
     BonCommandeService bonCommandeService;
 
     @GetMapping("")
     public ResponseEntity<Response> findAll() {
         try {
-            return ResponseEntity.ok().body(new Response(bonCommandeService.findAll(), "Bon de commande validé"));
+            return ResponseEntity.ok().body(new Response(bonCommandeService.findAll(), null));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(e.getMessage()));
+        }
+    }
+
+    @GetMapping("/valides")
+    public ResponseEntity<Response> findAllValide() {
+        try {
+            return ResponseEntity.ok().body(new Response(bonCommandeService.findBonDeCommandesValides(), null));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(e.getMessage()));

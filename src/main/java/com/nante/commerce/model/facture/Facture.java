@@ -19,6 +19,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "facture")
@@ -26,22 +27,28 @@ public class Facture extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
-    int format_prix;
+    int formatPrix;
+    String reference;
     @OneToOne
     @JoinColumn(name = "id_bon_commande")
     BonDeCommande bonDeCommande;
     LocalDate jour;
-    LocalDate jour_reception;
+    LocalDate jourReception;
     @ManyToOne
     @JoinColumn(name = "id_employe")
     Employe employe;
     int etat;
-    LocalDate jour_validation;
+    LocalDate jourValidation;
     @OneToMany(mappedBy = "facture", cascade = CascadeType.PERSIST)
     List<FactureDetails> details;
+    @Transient
+    List<String> probleme;
 
     @PrePersist
     public void prePersist() {
+        if (this.getJourReception() == null) {
+            setJourReception(LocalDate.now());
+        }
         if (getDetails() != null && getDetails().size() > 0) {
             for (FactureDetails d : details) {
                 d.setFacture(this);
@@ -55,14 +62,6 @@ public class Facture extends GenericModel {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getFormat_prix() {
-        return format_prix;
-    }
-
-    public void setFormat_prix(int format_prix) {
-        this.format_prix = format_prix;
     }
 
     public BonDeCommande getBonDeCommande() {
@@ -81,14 +80,6 @@ public class Facture extends GenericModel {
         this.jour = jour;
     }
 
-    public LocalDate getJour_reception() {
-        return jour_reception;
-    }
-
-    public void setJour_reception(LocalDate jour_reception) {
-        this.jour_reception = jour_reception;
-    }
-
     public Employe getEmploye() {
         return employe;
     }
@@ -105,19 +96,51 @@ public class Facture extends GenericModel {
         this.etat = etat;
     }
 
-    public LocalDate getJour_validation() {
-        return jour_validation;
-    }
-
-    public void setJour_validation(LocalDate jour_validation) {
-        this.jour_validation = jour_validation;
-    }
-
     public List<FactureDetails> getDetails() {
         return details;
     }
 
     public void setDetails(List<FactureDetails> details) {
         this.details = details;
+    }
+
+    public List<String> getProbleme() {
+        return probleme;
+    }
+
+    public void setProbleme(List<String> probleme) {
+        this.probleme = probleme;
+    }
+
+    public int getFormatPrix() {
+        return formatPrix;
+    }
+
+    public void setFormatPrix(int formatPrix) {
+        this.formatPrix = formatPrix;
+    }
+
+    public LocalDate getJourReception() {
+        return jourReception;
+    }
+
+    public void setJourReception(LocalDate jourReception) {
+        this.jourReception = jourReception;
+    }
+
+    public LocalDate getJourValidation() {
+        return jourValidation;
+    }
+
+    public void setJourValidation(LocalDate jourValidation) {
+        this.jourValidation = jourValidation;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 }
