@@ -3,6 +3,7 @@ package com.nante.commerce.controller.bonReception;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,6 +35,7 @@ public class BonReceptionController extends GenericController<BonReception> {
         }
     }
 
+    @Secured({ "MAG RECEP", "MAG EMP" })
     @PostMapping
     public ResponseEntity<?> save(@RequestBody BonReception model) {
         try {

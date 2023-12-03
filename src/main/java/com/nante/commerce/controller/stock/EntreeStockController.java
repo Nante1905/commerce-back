@@ -2,6 +2,7 @@ package com.nante.commerce.controller.stock;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ public class EntreeStockController extends GenericController<EntreStock> {
     @Autowired
     EmployeService employeService;
 
+    @Secured({ "MAG" })
     @PostMapping
     public ResponseEntity<?> save(@RequestBody EntreStock model) {
         try {

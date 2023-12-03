@@ -55,4 +55,4 @@ insert into type_sortie(nom) values
 ('Dispatch');
 
 insert into direction(nom, code) values ('Magasin', 'MAG');
-update employe set id_direction = 5 where code_poste = 'MAG';
+update employe set id_direction = 5 where code_poste = 'MAG' OR code_poste = 'RECEP';

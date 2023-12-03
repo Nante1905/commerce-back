@@ -59,7 +59,7 @@ public class DemandeController extends GenericController<Demande> {
         return ResponseEntity.ok(new Response(demandeService.findAllDemandeOuvertParDetails(), "OK"));
     }
 
-    @Secured("ACH")
+    @Secured({ "ACH", "MAG" })
     @GetMapping("/nature/valide")
     // Achat ihany no tokony mahita
     public ResponseEntity<?> findValideByNature() {

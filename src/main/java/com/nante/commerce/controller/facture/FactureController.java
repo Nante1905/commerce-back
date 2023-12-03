@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,7 @@ public class FactureController extends GenericController<Facture> {
     @Autowired
     EmployeService employeService;
 
+    @Secured({ "FIN CHEF", "DG" })
     @GetMapping("/{id}/valider")
     public ResponseEntity<Response> valider(@PathVariable("id") int id) {
         try {
@@ -38,6 +40,7 @@ public class FactureController extends GenericController<Facture> {
         }
     }
 
+    @Secured({ "MAG RECEP", "MAG EMP" })
     @GetMapping
     public ResponseEntity<Response> findAll() {
         try {
