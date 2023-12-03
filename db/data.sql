@@ -53,3 +53,6 @@ insert into mode_paiement(nom) values ('Chèque', 'Virement bancaire');
 insert into type_sortie(nom) values 
 ('Vente'),
 ('Dispatch');
+
+insert into direction(nom, code) values ('Magasin', 'MAG');
+update employe set id_direction = 5 where code_poste = 'MAG';

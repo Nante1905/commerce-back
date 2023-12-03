@@ -1,13 +1,40 @@
 package com.nante.commerce.model.stock.etatStock;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
-public class EtatStock {
+public class EtatStockQte {
     LocalDate debut;
     LocalDate fin;
-    List<DetailsEtatStock> details;
-    boolean montant = true;
+    List<DetailsEtatStockQte> details;
+    boolean montant = false;
+
+    public EtatStockQte() {
+    }
+
+    public EtatStockQte(EtatStock e) {
+        setDebut(e.getDebut());
+        setFin(e.getFin());
+        for (DetailsEtatStock d : e.getDetails()) {
+            this.addDetails(new DetailsEtatStockQte(d));
+        }
+    }
+
+    public void addDetails(DetailsEtatStockQte d) {
+        if (getDetails() == null) {
+            setDetails(new ArrayList<DetailsEtatStockQte>());
+        }
+        details.add(d);
+    }
+
+    public boolean isMontant() {
+        return montant;
+    }
+
+    public void setMontant(boolean montant) {
+        this.montant = montant;
+    }
 
     public void setDebut(String debut) {
         if (debut == null) {
@@ -32,21 +59,6 @@ public class EtatStock {
         return this.getDebut().toString();
     }
 
-    public double getMontantTotal() {
-        double total = 0;
-        for (DetailsEtatStock article : details) {
-            total += article.getMontant();
-        }
-        return total;
-    }
-
-    public String getFinString() {
-        if (this.getFin() == null) {
-            return null;
-        }
-        return this.getFin().toString();
-    }
-
     public LocalDate getDebut() {
         return debut;
     }
@@ -63,20 +75,12 @@ public class EtatStock {
         this.fin = fin;
     }
 
-    public List<DetailsEtatStock> getDetails() {
+    public List<DetailsEtatStockQte> getDetails() {
         return details;
     }
 
-    public void setDetails(List<DetailsEtatStock> details) {
+    public void setDetails(List<DetailsEtatStockQte> details) {
         this.details = details;
-    }
-
-    public boolean isMontant() {
-        return montant;
-    }
-
-    public void setMontant(boolean montant) {
-        this.montant = montant;
     }
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ public class EtatStockController {
     @Autowired
     EtatStockService etatStockService;
 
+    @Secured({ "MAG", "FIN" })
     @PostMapping("/etat")
     public ResponseEntity<?> findAll(@RequestBody HashMap<String, String> inputs) {
         try {
@@ -28,7 +30,7 @@ public class EtatStockController {
             String fin = inputs.get("fin");
             String article = inputs.get("article");
 
-            EtatStock results = etatStockService.findEtatStock(debut, fin, article);
+            Object results = etatStockService.findEtatStock(debut, fin, article);
             return ResponseEntity.ok(new Response(results, ""));
         } catch (Exception e) {
             e.printStackTrace();
