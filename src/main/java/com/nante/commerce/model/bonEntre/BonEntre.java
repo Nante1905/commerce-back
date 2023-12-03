@@ -9,6 +9,7 @@ import com.nante.commerce.model.bonLivraison.BonDeLivraison;
 import com.nante.commerce.model.bonLivraison.BonDeLivraisonDetails;
 import com.nante.commerce.model.bonReception.BonReception;
 import com.nante.commerce.model.employe.Employe;
+import com.nante.commerce.model.stock.EntreStock;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -33,6 +34,9 @@ public class BonEntre extends GenericModel {
     String reference;
     @OneToMany(mappedBy = "bonEntre", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     List<BonEntreDetails> details;
+    @OneToOne
+    @JoinColumn(name = "id_entre")
+    EntreStock entreStock;
 
     @PrePersist
     public void prePersist() {
@@ -80,6 +84,14 @@ public class BonEntre extends GenericModel {
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public EntreStock getEntreStock() {
+        return entreStock;
+    }
+
+    public void setEntreStock(EntreStock entreStock) {
+        this.entreStock = entreStock;
     }
 
 }

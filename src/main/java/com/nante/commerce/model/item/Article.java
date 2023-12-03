@@ -23,6 +23,20 @@ public class Article extends GenericModel {
 
     @Transient
     double qte;
+    int gestion;
+
+    public String modeGestion() throws Exception {
+        if (gestion == 0) {
+            return "LIFO";
+        }
+        if (gestion == 5) {
+            return "FIFO";
+        }
+        if (gestion == 10) {
+            return "CUMP";
+        }
+        throw new Exception("Mode de gestion inconnu");
+    }
 
     public int getId() {
         return id;
@@ -62,6 +76,14 @@ public class Article extends GenericModel {
 
     public void setQte(double qte) {
         this.qte = qte;
+    }
+
+    public int getGestion() {
+        return gestion;
+    }
+
+    public void setGestion(int gestion) {
+        this.gestion = gestion;
     }
 
 }

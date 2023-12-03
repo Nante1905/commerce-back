@@ -3,6 +3,8 @@ package com.nante.commerce.model.bonSortie;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.item.Article;
+import com.nante.commerce.model.stock.SortieStockDetails;
+import com.nante.commerce.model.stock.SortieStockRepartition;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,6 +28,14 @@ public class BonSortieDetails extends GenericModel {
     @JoinColumn(name = "id_article")
     Article article;
     double qte;
+
+    public BonSortieDetails() {
+    }
+
+    public BonSortieDetails(SortieStockDetails details) {
+        setArticle(details.getArticle());
+        setQte(details.getQte());
+    }
 
     public int getId() {
         return id;

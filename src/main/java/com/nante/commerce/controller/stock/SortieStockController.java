@@ -26,8 +26,8 @@ public class SortieStockController extends GenericController<SortieStock> {
     public ResponseEntity<?> save(@RequestBody SortieStock model) {
         try {
             model.setEmploye(employeService.getAuthenticated());
-            SortieStock results = service.save(model);
-            return ResponseEntity.ok(new Response(results, "Inserer avec succes"));
+            SortieStock results = service.saisie(model);
+            return ResponseEntity.ok(new Response(results, "Inséré avec succes"));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(new Response(e.getMessage()));
         }

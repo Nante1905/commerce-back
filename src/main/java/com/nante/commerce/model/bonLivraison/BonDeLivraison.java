@@ -40,6 +40,9 @@ public class BonDeLivraison extends GenericModel {
 
     @PrePersist
     public void prePersist() {
+        if(jourReception == null) {
+            setJourReception(LocalDate.now());
+        }
         if (getDetails() != null && getDetails().size() > 0) {
             for (BonDeLivraisonDetails d : details) {
                 d.setLivraison(this);

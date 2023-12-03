@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.nante.commerce.crud.controller.GenericController;
+import com.nante.commerce.model.bonCommande.BonDeCommande;
 import com.nante.commerce.model.item.ModePaiement;
 import com.nante.commerce.services.bonCommande.BonCommandeService;
 import com.nante.commerce.types.response.Response;
@@ -43,15 +45,17 @@ public class BonDeCommandeController extends GenericController<BonDeCommande> {
         }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Response> findById(@PathVariable("id") int id) {
-        try {
-            return ResponseEntity.ok().body(new Response(bonCommandeService.find(id), "Bon de commande validé"));
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(e.getMessage()));
-        }
-    }
+    // @GetMapping("/{id}")
+    // public ResponseEntity<Response> findById(@PathVariable("id") int id) {
+    // try {
+    // return ResponseEntity.ok().body(new Response(bonCommandeService.find(id),
+    // "Bon de commande validé"));
+    // } catch (Exception e) {
+    // e.printStackTrace();
+    // return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new
+    // Response(e.getMessage()));
+    // }
+    // }
 
     @Secured({ "FIN CHEF", "DG" })
     @PostMapping("{id}/valider")

@@ -38,6 +38,9 @@ public class EntreStock extends GenericModel {
 
     @PrePersist
     public void prePersist() {
+        if (jour == null) {
+            setJour(LocalDate.now());
+        }
         if (getDetails() != null && getDetails().size() > 0) {
             for (EntreStockDetails d : details) {
                 d.setEntreStock(this);

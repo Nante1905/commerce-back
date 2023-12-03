@@ -43,6 +43,9 @@ public class SortieStock extends GenericModel {
 
     @PrePersist
     public void prePersist() {
+        if (jour == null) {
+            setJour(LocalDate.now());
+        }
         if (getDetails() != null && getDetails().size() > 0) {
             for (SortieStockDetails d : details) {
                 d.setSortieStock(this);

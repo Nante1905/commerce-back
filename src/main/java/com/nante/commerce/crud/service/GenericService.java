@@ -28,4 +28,8 @@ public class GenericService<T extends GenericModel> {
         model.setId(id);
         return repository.save(model);
     }
+
+    public GenericRepository<T> getRepository() {
+        return repository;
+    }
 }

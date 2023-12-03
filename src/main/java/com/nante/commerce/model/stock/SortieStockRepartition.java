@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.item.Article;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -22,7 +23,30 @@ public class SortieStockRepartition extends GenericModel {
     String refArticle;
     double puHt;
     double qte;
-    int idEntreStock;
+    Integer idEntreStock;
+
+    public SortieStockRepartition() {
+    }
+
+    public SortieStockRepartition(SortieStockDetails sortieStockDetails, Article article, String refArticle,
+            double puHt, double qte) {
+        setSortieStockDetails(sortieStockDetails);
+        setArticle(article);
+        setRefArticle(refArticle);
+        setPuHt(puHt);
+        setQte(qte);
+        setIdEntreStock(null);
+    }
+
+    public SortieStockRepartition(SortieStockDetails sortieStockDetails, Article article, String refArticle,
+            double puHt, double qte, int idEntree) {
+        setSortieStockDetails(sortieStockDetails);
+        setArticle(article);
+        setRefArticle(refArticle);
+        setPuHt(puHt);
+        setQte(qte);
+        setIdEntreStock(idEntree);
+    }
 
     public SortieStockDetails getSortieStockDetails() {
         return sortieStockDetails;
@@ -64,11 +88,11 @@ public class SortieStockRepartition extends GenericModel {
         this.qte = qte;
     }
 
-    public int getIdEntreStock() {
+    public Integer getIdEntreStock() {
         return idEntreStock;
     }
 
-    public void setIdEntreStock(int idEntreStock) {
+    public void setIdEntreStock(Integer idEntreStock) {
         this.idEntreStock = idEntreStock;
     }
 }

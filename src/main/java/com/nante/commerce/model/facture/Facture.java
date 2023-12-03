@@ -3,6 +3,7 @@ package com.nante.commerce.model.facture;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.bonCommande.BonDeCommande;
 import com.nante.commerce.model.bonLivraison.BonDeLivraisonDetails;

@@ -1,6 +1,7 @@
 package com.nante.commerce.model.bonSortie;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.annotations.ManyToAny;
@@ -10,6 +11,7 @@ import com.nante.commerce.model.bonLivraison.BonDeLivraisonDetails;
 import com.nante.commerce.model.employe.Direction;
 import com.nante.commerce.model.employe.Employe;
 import com.nante.commerce.model.stock.SortieStock;
+import com.nante.commerce.model.stock.SortieStockDetails;
 import com.nante.commerce.model.stock.TypeSortie;
 
 import jakarta.persistence.CascadeType;
@@ -70,6 +72,19 @@ public class BonSortie extends GenericModel {
 
     public void setDetails(List<BonSortieDetails> details) {
         this.details = details;
+    }
+
+    public void addDetails(BonSortieDetails details) {
+        if (getDetails() == null) {
+            setDetails(new ArrayList<BonSortieDetails>());
+        }
+        this.details.add(details);
+    }
+
+    public void setDetailsFromStock(List<SortieStockDetails> details) {
+        for (SortieStockDetails d : details) {
+            this.addDetails(new BonSortieDetails(d));
+        }
     }
 
     public String getReference() {

@@ -358,5 +358,18 @@ create table accuse_reception_details (
    qte double precision
 );
 
-alter table facture alter column jour_validation drop not null
-alter table facture alter column jour_reception set default now()
+alter table facture alter column jour_validation drop not null;
+alter table facture alter column jour_reception set default now();
+
+-- MIALISOA STOCK
+alter table article add gestion integer;
+-- JEREO SELON ARTICLE ANAREO, METY HOE tsy 2 fa 1 lay id no manomboka
+update article set gestion = 0 where id = 2;
+update article set gestion = 5 where id = 3;
+update article set gestion = 10 where id = 4;
+
+alter table article alter column gestion set not null;
+alter table sortie_stock_repartition drop column id_entre_stock;
+alter table sortie_stock_repartition add column id_entre_stock references entre_stock_details(id);
+
+

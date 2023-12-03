@@ -48,3 +48,8 @@ VALUES
 
 
 insert into mode_paiement(nom) values ('Chèque', 'Virement bancaire');
+
+-- STOCK
+insert into type_sortie(nom) values 
+('Vente'),
+('Dispatch');

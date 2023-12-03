@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,11 +28,11 @@ public class FactureController extends GenericController<Facture> {
     @Autowired
     EmployeService employeService;
 
-    @GetMapping("{id}/valider")
-    public ResponseEntity<Response> valider(@PathParam("id") int id) {
+    @GetMapping("/{id}/valider")
+    public ResponseEntity<Response> valider(@PathVariable("id") int id) {
         try {
             factureService.valider(id);
-            return ResponseEntity.ok(new Response(null, ""));
+            return ResponseEntity.ok(new Response(null, "Facture validée"));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(new Response(e.getMessage()));
         }

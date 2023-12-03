@@ -41,6 +41,9 @@ public class BonReception extends GenericModel {
 
     @PrePersist
     public void prePersist() {
+        if (jour == null) {
+            setJour(LocalDate.now());
+        }
         if (getDetails() != null && getDetails().size() > 0) {
             for (BonReceptionDetails d : details) {
                 d.setBonReception(this);

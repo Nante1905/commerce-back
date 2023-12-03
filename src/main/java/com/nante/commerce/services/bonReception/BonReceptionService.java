@@ -1,5 +1,6 @@
 package com.nante.commerce.services.bonReception;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,5 +17,18 @@ public class BonReceptionService extends GenericService<BonReception> {
 
     public List<BonReception> findAllValide() {
         return bonReceptionRepo.findAllValide();
+    }
+
+    @Override
+    public BonReception save(BonReception model) {
+        model.setReference(generateReference());
+        return bonReceptionRepo.save(model);
+    }
+
+    private String generateReference() {
+        long count = this.bonReceptionRepo.count();
+        LocalDate today = LocalDate.now();
+        return "BR" + today.getYear() + today.getMonthValue() + today.getDayOfMonth()
+                + String.format("%03d", count + 1);
     }
 }

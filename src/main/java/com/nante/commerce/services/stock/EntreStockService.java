@@ -23,6 +23,8 @@ import com.nante.commerce.repositories.facture.FactureDetailsRepository;
 import com.nante.commerce.repositories.facture.FactureRepository;
 import com.nante.commerce.services.bonEntre.BonEntreService;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class EntreStockService extends GenericService<EntreStock> {
     @Autowired
@@ -34,6 +36,7 @@ public class EntreStockService extends GenericService<EntreStock> {
     @Autowired
     BonEntreRepository bonEntreRepo;
 
+    @Transactional
     public void inserer(EntreStock entreStock) throws Exception {
         int idFacture = factureRepository.findFactureOfReception(entreStock.getBonReception().getId())
                 .orElseThrow(() -> new Exception("Aucune facture n'est associé au bon de réception"));
@@ -49,6 +52,7 @@ public class EntreStockService extends GenericService<EntreStock> {
         BonEntre bonEntre = new BonEntre();
         bonEntre.setReference(generateReferenceBonEntre());
         bonEntre.setJour(LocalDate.now());
+        bonEntre.setEntreStock(entreStock);
 
         for (EntreStockDetails e : entreStock.getDetails()) {
             if (detailsFacture.get(e.getArticle().getId()) == null) {

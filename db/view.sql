@@ -65,3 +65,19 @@ where f.jour_validation is not null;
      JOIN bon_livraison bl ON br.id_bon_livraison = bl.id
      JOIN facture f ON f.id_bon_commande = bl.id_bon_commande
   WHERE f.jour_validation IS NOT NULL;
+
+-- MIALISOA EETAT DE STOCK
+create view v_entre_stock_details_jour as select d.*, e.jour 
+from  entre_stock e
+	join entre_stock_details d 
+	on d.id_entre_stock = e.id;
+
+create view v_sortie_stock_details_jour as select s.jour, r.* 
+from sortie_stock_repartition r
+	join sortie_stock_details d on r.id_sortie_details = d.id
+	join sortie_stock s on d.id_sortie_stock = s.id;
+
+create view v_sortie_details_lifofifo as 
+select * 
+	from v_sortie_stock_details_jour 
+	where id_entre_stock is not null;
