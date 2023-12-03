@@ -39,7 +39,7 @@ public class SortieStock extends GenericModel {
     @JoinColumn(name = "id_employe")
     Employe employe;
     @OneToMany(mappedBy = "sortieStock", cascade = CascadeType.PERSIST)
-    List<SortieStockDetails>details;
+    List<SortieStockDetails> details;
 
     @PrePersist
     public void prePersist() {

@@ -1,6 +1,7 @@
 package com.nante.commerce.model.bonEntre;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.nante.commerce.crud.model.GenericModel;
@@ -40,6 +41,13 @@ public class BonEntre extends GenericModel {
                 d.setBonEntre(this);
             }
         }
+    }
+
+    public void addDetails(BonEntreDetails b) {
+        if (this.getDetails() == null) {
+            setDetails(new ArrayList<BonEntreDetails>());
+        }
+        this.details.add(b);
     }
 
     public int getId() {

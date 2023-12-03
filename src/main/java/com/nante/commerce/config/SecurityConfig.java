@@ -35,8 +35,8 @@ public class SecurityConfig {
                     req
                             .requestMatchers("/auth/**").permitAll()
                             .requestMatchers("/error/**").permitAll()
-                            .anyRequest().authenticated();
-                    // .anyRequest().permitAll();
+                            // .anyRequest().authenticated();
+                            .anyRequest().permitAll();
                 })
                 .addFilterBefore(this.interceptor(), UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(Customizer.withDefaults())

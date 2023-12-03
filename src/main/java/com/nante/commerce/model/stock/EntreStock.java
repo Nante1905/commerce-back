@@ -1,19 +1,23 @@
 package com.nante.commerce.model.stock;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.model.bonEntre.BonEntre;
 import com.nante.commerce.model.bonReception.BonReception;
 import com.nante.commerce.model.employe.Employe;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,6 +33,17 @@ public class EntreStock extends GenericModel {
     @ManyToOne
     @JoinColumn(name = "id_employe")
     Employe employe;
+    @OneToMany(mappedBy = "entreStock", cascade = CascadeType.PERSIST)
+    List<EntreStockDetails> details;
+
+    @PrePersist
+    public void prePersist() {
+        if (getDetails() != null && getDetails().size() > 0) {
+            for (EntreStockDetails d : details) {
+                d.setEntreStock(this);
+            }
+        }
+    }
 
     public int getId() {
         return id;
@@ -60,6 +75,14 @@ public class EntreStock extends GenericModel {
 
     public void setEmploye(Employe employe) {
         this.employe = employe;
+    }
+
+    public List<EntreStockDetails> getDetails() {
+        return details;
+    }
+
+    public void setDetails(List<EntreStockDetails> details) {
+        this.details = details;
     }
 
 }

@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 import com.nante.commerce.crud.repository.GenericRepository;
 import com.nante.commerce.model.bonEntre.BonEntre;
 
-@Repository
-public interface BonEntreRepository extends GenericRepository<BonEntre>{
-    
+public interface BonEntreRepository extends GenericRepository<BonEntre> {
+
 }

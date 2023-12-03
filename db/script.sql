@@ -240,10 +240,10 @@ create table facture (
    format_prix integer,
    id_bon_commande integer not Null references bon_commande(id),
    jour date not null,
-   jour_reception date not null,
+   jour_reception date not null default now(),
    id_employe integer not null references employe(id),
    etat integer,
-   jour_validation date not null
+   jour_validation date
 );
 
 create table facture_details (
@@ -357,3 +357,6 @@ create table accuse_reception_details (
    id_article integer not null references article(id),
    qte double precision
 );
+
+alter table facture alter column jour_validation drop not null
+alter table facture alter column jour_reception set default now()

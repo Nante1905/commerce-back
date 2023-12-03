@@ -50,3 +50,18 @@ end pu
 from facture f
 	join facture_details d
 	on d.id_facture = f.id
+
+create view v_bon_reception_valide as 
+select br.* 
+from bon_reception br
+	join bon_livraison bl on br.id_bon_livraison = bl.id
+	join facture f on f.id_bon_commande = bl.id_bon_commande
+where f.jour_validation is not null;
+
+ create view v_bon_reception_avec_livraison as
+ SELECT br.*,
+ f.id as id_facture
+   FROM bon_reception br
+     JOIN bon_livraison bl ON br.id_bon_livraison = bl.id
+     JOIN facture f ON f.id_bon_commande = bl.id_bon_commande
+  WHERE f.jour_validation IS NOT NULL;
