@@ -2,11 +2,13 @@ package com.nante.commerce.services.authentication;
 
 import java.security.Key;
 import java.util.Base64;
+import java.util.Collection;
 import java.util.Date;
 
 import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.nante.commerce.model.employe.Employe;
@@ -21,8 +23,10 @@ public class JWTManager {
     private static final Key key = new SecretKeySpec(Base64.getDecoder().decode(secret),
             SignatureAlgorithm.HS256.getJcaName());
 
-    public String generateToken(Employe employe) {
+    public String generateToken(Employe employe, Collection<? extends GrantedAuthority> authorities) {
         Date currentDate = new Date();
+        String auths = authorities.stream().map(a -> a.getAuthority()).toList().toString();
+        auths = auths.substring(1, auths.length() - 1);
 
         String token = Jwts.builder()
                 .setSubject(employe.getNom())
@@ -30,6 +34,7 @@ public class JWTManager {
                 .setExpiration(new Date(currentDate.getTime() + dayToMs(1)))
                 .claim("email", employe.getEmail())
                 .claim("id", employe.getId())
+                .claim("authorization", auths)
                 .signWith(key)
                 .compact();
         return token;

@@ -12,12 +12,15 @@ public class AuthenticationService {
     private EmployeService employeService;
 
     @Autowired
+    CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
     private JWTManager jwtManager;
 
     public String login(String email, String password) throws Exception {
         try {
             Employe emp = this.employeService.findByEmailAndPassword(email, password);
-            return jwtManager.generateToken(emp);
+            return jwtManager.generateToken(emp, customUserDetailsService.getAuthorities(emp));
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
