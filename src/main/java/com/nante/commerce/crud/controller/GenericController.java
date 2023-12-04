@@ -66,4 +66,16 @@ public class GenericController<T extends GenericModel> {
             return ResponseEntity.status(500).body(new Response(e.getMessage()));
         }
     }
+
+    public GenericService<T> getService() {
+        return service;
+    }
+
+    public HashMap<String, Object> getRes() {
+        return res;
+    }
+
+    public HashMap<String, Object> getErr() {
+        return err;
+    }
 }

@@ -32,6 +32,7 @@ public class EntreeStockController extends GenericController<EntreStock> {
             service.inserer(model);
             return ResponseEntity.ok(new Response(null, "Inseréré avec succes"));
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(500).body(new Response(e.getMessage()));
         }
     }
