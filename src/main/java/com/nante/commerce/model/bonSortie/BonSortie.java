@@ -40,6 +40,7 @@ public class BonSortie extends GenericModel {
     SortieStock sortie;
     @OneToMany(mappedBy = "sortie", cascade = CascadeType.PERSIST)
     List<BonSortieDetails> details;
+    int status;
 
     @PrePersist
     public void prePersist() {
@@ -48,6 +49,15 @@ public class BonSortie extends GenericModel {
                 d.setSortie(this);
             }
         }
+    }
+
+    public String getStatusString() throws Exception {
+        if (status == 0) {
+            return "En attente de confirmation";
+        } else if (status == 5) {
+            return "Reçu";
+        }
+        throw new Exception("Status de bon de sortie inconnu");
     }
 
     public int getId() {
@@ -101,5 +111,13 @@ public class BonSortie extends GenericModel {
 
     public void setSortie(SortieStock sortie) {
         this.sortie = sortie;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

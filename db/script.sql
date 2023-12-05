@@ -372,4 +372,6 @@ alter table article alter column gestion set not null;
 alter table sortie_stock_repartition drop column id_entre_stock;
 alter table sortie_stock_repartition add column id_entre_stock references entre_stock_details(id);
 
-
+-- MIALISOA ACCUSE RECEPTION
+alter table bon_sortie add column status integer not null default 0;
+alter table accuse_reception add column reference varchar(50) not null unique;

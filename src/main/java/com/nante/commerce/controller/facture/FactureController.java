@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +41,7 @@ public class FactureController extends GenericController<Facture> {
         }
     }
 
-    @Secured({ "MAG RECEP", "MAG EMP" })
+    @Secured({ "MAG RECEP", "MAG EMP", "FIN" })
     @GetMapping
     public ResponseEntity<Response> findAll() {
         try {
@@ -50,6 +51,23 @@ public class FactureController extends GenericController<Facture> {
             }
 
             return ResponseEntity.ok(new Response(results, ""));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new Response(e.getMessage()));
+        }
+    }
+
+    @Secured({ "MAG RECEP", "MAG EMP", "FIN" })
+    @GetMapping("/{id}")
+    public ResponseEntity<Response> find(@PathVariable("id") int id) {
+        Facture results;
+        try {
+            results = factureService.find(id);
+            factureService.findProblemAvecBonCommande(results);
+            return ResponseEntity.ok(new Response(results, ""));
+        } catch (NotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(new Response("Facture inexistante"));
+
         } catch (Exception e) {
             return ResponseEntity.status(500).body(new Response(e.getMessage()));
         }

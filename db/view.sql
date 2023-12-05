@@ -81,3 +81,21 @@ create view v_sortie_details_lifofifo as
 select * 
 	from v_sortie_stock_details_jour 
 	where id_entre_stock is not null;
+
+-- MIALISOA ACCUSE DE RECEPTION
+create view v_dispatch_article as
+select b.*, id_direction from bon_sortie b
+join sortie_stock s on b.id_sortie = s.id
+where id_direction is not null
+
+-- MODIFIER VIEW V_DETAILS_FACTURE_HT
+create OR REPLACE view v_facture_details_ht as SELECT d.id,
+    d.id_facture,
+    d.id_article,
+    d.qte,
+        CASE
+            WHEN f.format_prix = 5 THEN round(d.pu::numeric / 1.2, 2)
+            ELSE round(d.pu::numeric, 2)
+        END AS pu
+   FROM facture f
+     JOIN facture_details d ON d.id_facture = f.id;

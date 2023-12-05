@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 import com.nante.commerce.crud.model.GenericModel;
 import com.nante.commerce.crud.repository.GenericRepository;
@@ -16,8 +17,8 @@ public class GenericService<T extends GenericModel> {
         return repository.findAll();
     }
 
-    public T find(int id) throws Exception {
-        return repository.findById(id).orElseThrow(() -> new Exception("Entité inexistant"));
+    public T find(int id) throws NotFoundException {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException());
     }
 
     public T save(T model) {

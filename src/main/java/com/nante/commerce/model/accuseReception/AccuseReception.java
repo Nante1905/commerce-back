@@ -13,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +22,7 @@ public class AccuseReception extends GenericModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+    String reference;
     @OneToOne
     @JoinColumn(name = "id_bon_sortie")
     BonSortie bonSortie;
@@ -28,6 +30,13 @@ public class AccuseReception extends GenericModel {
     @ManyToOne
     @JoinColumn(name = "id_employe")
     Employe employe;
+
+    @PrePersist
+    public void PrePersist() {
+        if (jour == null) {
+            setJour(LocalDate.now());
+        }
+    }
 
     public int getId() {
         return id;
@@ -59,6 +68,14 @@ public class AccuseReception extends GenericModel {
 
     public void setEmploye(Employe employe) {
         this.employe = employe;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
 }
