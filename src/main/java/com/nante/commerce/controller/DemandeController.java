@@ -30,6 +30,18 @@ public class DemandeController extends GenericController<Demande> {
     EmployeService employeService;
 
     @Override
+    @GetMapping
+    @Secured("EMP")
+    public ResponseEntity<Response> findAll() {
+        try {
+            List<Demande> results = demandeService.findAllDemandeSelonDirection();
+            return ResponseEntity.ok(new Response(results, ""));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(new Response(e.getMessage()));
+        }
+    }
+
+    @Override
     @PostMapping
     @Secured("EMP")
     public ResponseEntity<?> save(@RequestBody Demande model) {
@@ -66,7 +78,7 @@ public class DemandeController extends GenericController<Demande> {
         return ResponseEntity.ok(new Response(demandeService.findAllDemandeValideParDetails(), "OK"));
     }
 
-    @Secured("CHEF")
+    @Secured({ "CHEF", "ACH" })
     @GetMapping("/nature/service")
     // Chef ihany no tokony mahita
     public ResponseEntity<?> findByNatureOfDirection() throws Exception {
@@ -74,7 +86,7 @@ public class DemandeController extends GenericController<Demande> {
         Employe employe = employeService.getAuthenticated();
         return ResponseEntity
                 .ok(new Response(
-                        demandeService.findAllDemandeOuvertParDetailsParDirection(employe.getDirection().getId()),
+                        demandeService.findDemandeParNatureSelonDirection(),
                         null));
     }
 

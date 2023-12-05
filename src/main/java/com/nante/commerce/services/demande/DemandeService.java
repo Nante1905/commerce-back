@@ -19,6 +19,7 @@ import com.nante.commerce.model.demande.DemandeParDetails;
 import com.nante.commerce.model.demande.DemandeParNature;
 import com.nante.commerce.model.demande.DemandeParNatureDetails;
 import com.nante.commerce.model.demande.SelectionDetailsDemande;
+import com.nante.commerce.model.employe.Employe;
 import com.nante.commerce.model.item.Article;
 import com.nante.commerce.model.item.Fournisseur;
 import com.nante.commerce.model.proforma.DemandeProforma;
@@ -26,9 +27,11 @@ import com.nante.commerce.repositories.demande.DemandeDetailsRepository;
 import com.nante.commerce.repositories.demande.DemandeParDetailsRepository;
 import com.nante.commerce.repositories.demande.DemandeRepository;
 import com.nante.commerce.repositories.proforma.DemandeProformaRepo;
+import com.nante.commerce.services.employe.EmployeService;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.security.auth.message.AuthException;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -43,6 +46,29 @@ public class DemandeService extends GenericService<Demande> {
     EntityManager entityManager;
     @Autowired
     DemandeProformaRepo demandeProformaRepo;
+    @Autowired
+    EmployeService empService;
+
+    public List<Demande> findAllDemandeSelonDirection() throws AuthException {
+        Employe e = empService.getAuthenticated();
+        // if (e.getDirection().getCode().compareToIgnoreCase("ACH") == 0) {
+        // return demandeRepo.findAll();
+        // } else {
+        return this.findByDirectionId(e.getDirection().getId());
+        // }
+    }
+
+    public List<DemandeParNature> findDemandeParNatureSelonDirection() throws AuthException {
+        Employe e = empService.getAuthenticated();
+        List<DemandeParNature> demandes = new ArrayList<>();
+        if (e.getDirection().getCode().compareToIgnoreCase("ACH") == 0) {
+            demandes = this.findAllDemandeOuvertParDetails();
+        } else {
+            demandes = this.findAllDemandeOuvertParDetailsParDirection(e.getDirection().getId());
+        }
+        return demandes;
+
+    }
 
     public Map<?, ?> findByNature() {
         Demande demande = demandeRepo.findById(1).get();
