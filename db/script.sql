@@ -375,3 +375,12 @@ alter table sortie_stock_repartition add column id_entre_stock references entre_
 -- MIALISOA ACCUSE RECEPTION
 alter table bon_sortie add column status integer not null default 0;
 alter table accuse_reception add column reference varchar(50) not null unique;
+
+-- MIALISOA EXPLICATION ANOMALIE
+create table facture_explication (
+   id serial primary key,
+   id_facture integer not null references facture(id),
+   explication text,
+   id_employe integer not null references employe(id),
+   jour datetime timestamp now()
+);

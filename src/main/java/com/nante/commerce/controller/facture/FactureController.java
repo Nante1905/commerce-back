@@ -1,10 +1,12 @@
 package com.nante.commerce.controller.facture;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,10 +18,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.nante.commerce.crud.controller.GenericController;
 import com.nante.commerce.model.facture.Facture;
+import com.nante.commerce.model.facture.FactureExplication;
 import com.nante.commerce.services.employe.EmployeService;
+import com.nante.commerce.services.facture.FactureExplicationService;
 import com.nante.commerce.services.facture.FactureService;
 import com.nante.commerce.types.response.Response;
 
+import jakarta.security.auth.message.AuthException;
 import jakarta.websocket.server.PathParam;
 
 @RestController
@@ -29,6 +34,8 @@ public class FactureController extends GenericController<Facture> {
     FactureService factureService;
     @Autowired
     EmployeService employeService;
+    @Autowired
+    FactureExplicationService explicationService;
 
     @Secured({ "FIN CHEF", "DG" })
     @GetMapping("/{id}/valider")
@@ -41,7 +48,7 @@ public class FactureController extends GenericController<Facture> {
         }
     }
 
-    @Secured({ "MAG RECEP", "MAG EMP", "FIN" })
+    @Secured({ "MAG RECEP", "MAG", "FIN" })
     @GetMapping
     public ResponseEntity<Response> findAll() {
         try {
@@ -56,7 +63,7 @@ public class FactureController extends GenericController<Facture> {
         }
     }
 
-    @Secured({ "MAG RECEP", "MAG EMP", "FIN" })
+    @Secured({ "MAG", "FIN" })
     @GetMapping("/{id}")
     public ResponseEntity<Response> find(@PathVariable("id") int id) {
         Facture results;
@@ -80,6 +87,22 @@ public class FactureController extends GenericController<Facture> {
             Facture results = factureService.save(model);
             return ResponseEntity.ok(new Response(results, "Inserée avec succes"));
         } catch (Exception e) {
+            return ResponseEntity.status(500).body(new Response(e.getMessage()));
+        }
+    }
+
+    @Secured({ "MAG", "FIN" })
+    @PostMapping("/{id}/explications")
+    public ResponseEntity<Response> saveExplication(@PathVariable("id") int id,
+            @RequestBody HashMap<String, String> inputs) {
+        try {
+            String text = inputs.get("text");
+            FactureExplication res = explicationService.save(id, text);
+            return ResponseEntity.ok(new Response(res, "Inserée avec succes"));
+        } catch (Exception e) {
+            if (e.getClass().equals(AuthException.class)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new Response(e.getMessage()));
+            }
             return ResponseEntity.status(500).body(new Response(e.getMessage()));
         }
     }

@@ -44,6 +44,8 @@ public class Facture extends GenericModel {
     List<FactureDetails> details;
     @Transient
     List<String> probleme;
+    @OneToMany(mappedBy = "facture", cascade = CascadeType.PERSIST)
+    List<FactureExplication> explications;
 
     @PrePersist
     public void prePersist() {
@@ -55,6 +57,13 @@ public class Facture extends GenericModel {
                 d.setFacture(this);
             }
         }
+    }
+
+    public Facture() {
+    }
+
+    public Facture(int idFacture) {
+        setId(idFacture);
     }
 
     public int getId() {
@@ -143,5 +152,13 @@ public class Facture extends GenericModel {
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+    public List<FactureExplication> getExplications() {
+        return explications;
+    }
+
+    public void setExplications(List<FactureExplication> explications) {
+        this.explications = explications;
     }
 }
